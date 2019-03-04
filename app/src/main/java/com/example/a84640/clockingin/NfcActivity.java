@@ -1,6 +1,7 @@
 package com.example.a84640.clockingin;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -10,20 +11,31 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.a84640.clockingin.activity.HelpActivity;
 import com.example.a84640.clockingin.fragment.DataFragment;
 import com.example.a84640.clockingin.fragment.NfcFragment;
 import com.example.a84640.clockingin.fragment.ToolsFragment;
 
 import java.util.zip.DataFormatException;
 
+/**
+ * @author jixiang
+ * @date 2019/3/3
+ */
 public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
     // public static final String NFC_id = "nfc_id";
     private SharedPreferences sp;
     private SharedPreferences.Editor editor;
 
+    /**
+     * 底部导航栏
+     * */
     private BottomNavigationView mNavigationView;
     private ViewPager mViewPager;
     private NfcFragment mNfcFragment = new NfcFragment();
@@ -45,10 +57,46 @@ public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageCh
     };
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater =getMenuInflater();
+        inflater.inflate(R.menu.main_anctivity,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menu_help:
+                //启用帮助界面
+                Intent intent=new Intent(this,HelpActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.main_menu_der:
+                //TODO:添加手机界面反转
+                Toast.makeText(sContext,"已经横屏显示",Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.main_menu_bgc:
+                //TODO:添加手机主题切换
+                Toast.makeText(sContext,"请选择手机主题",Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.main_menu_about:
+                //TODO:添加关于app的开发信息
+                Toast.makeText(sContext,"显示开发信息",Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.main_menu_esc:
+                //TODO:退出app
+                Toast.makeText(sContext,"退出app",Toast.LENGTH_SHORT).show();
+                break;
+            default:
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nfc);
-
+        //加载布局
         initView();
         sContext = getApplicationContext();
         mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {

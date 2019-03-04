@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_help"
+        android:icon="@drawable/help"
+        android:title="@string/help"
+        app:showAsAction="always"
+        />
+
+    <item
+        android:id="@+id/menu_more"
+        android:title="更改">
+        <menu>
+            <item
+                android:id="@+id/main_menu_der"
+                android:title="@string/change_der"
+                android:orderInCategory="0"
+                />
+            <item
+                android:id="@+id/main_menu_bgc"
+                android:orderInCategory="1"
+                android:title="@string/change_color"
+                />
+        </menu>
+    </item>
+
+
+    <item
+        android:title="@string/menu_about"
+        android:orderInCategory="2"
+        android:id="@+id/main_menu_about"
+        />
+    <item android:id="@+id/main_menu_esc"
+        android:orderInCategory="3"
+        android:title="@string/menu_esc"
+        />
+
+
+</menu>

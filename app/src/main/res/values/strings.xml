@@ -6,4 +6,10 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <!--主界面menu-->
+    <string name="help">帮助</string>
+    <string name="change_der">更改方向</string>
+    <string name="change_color">更改背景</string>
+    <string name="menu_about">关于</string>
+    <string name="menu_esc">退出</string>
 </resources>
