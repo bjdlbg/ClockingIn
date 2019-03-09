@@ -1,4 +1,4 @@
-package com.example.a84640.clockingin;
+package com.example.a84640.clockingin.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.a84640.clockingin.R;
 import com.example.a84640.clockingin.activity.HelpActivity;
 import com.example.a84640.clockingin.fragment.DataFragment;
 import com.example.a84640.clockingin.fragment.NfcFragment;
