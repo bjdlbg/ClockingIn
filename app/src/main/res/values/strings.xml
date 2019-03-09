@@ -3,9 +3,9 @@
     <!--主界面欢迎语-->
     <string name="main_page_title">欢迎使用ClockingIn App</string>
     <string name="title_activity_nfc">ClockingIn</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_home">NFC</string>
+    <string name="title_dashboard">Chart</string>
+    <string name="title_notifications">Tools</string>
     <!--主界面menu-->
     <string name="help">帮助</string>
     <string name="change_der">更改方向</string>

@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -44,15 +45,24 @@ public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageCh
     private static Context sContext;
 
     /**
-     * 导航栏点击事件的监听接口
+     * 底部导航栏的点击监听接口的实现
      */
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
+            =new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            mViewPager.setCurrentItem(item.getOrder());
-            return true;
+        public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+            switch (menuItem.getItemId()) {
+                case R.id.navigation_nfc:
+                    mViewPager.setCurrentItem(0);
+                    break;
+                case R.id.navigation_chart:
+                    mViewPager.setCurrentItem(1);
+                    break;
+                case R.id.navigation_tools:
+                    mViewPager.setCurrentItem(2);
+                    break;
+            }
+            return false;
         }
     };
 
@@ -99,15 +109,19 @@ public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageCh
         //加载布局
         initView();
         sContext = getApplicationContext();
+
         mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
-            public Fragment getItem(int i) {
-                switch (i) {
+            public Fragment getItem(int position) {
+                switch (position) {
                     case 0:
+                        Log.d("change pager", "getItem: return frga1");
                         return mNfcFragment;
                     case 1:
+                        Log.d("change pager", "getItem: return frga2");
                         return mDataFragment;
                     case 2:
+                        Log.d("change pager", "getItem: return frga3");
                         return mToolsFragment;
                     default:
                         break;
@@ -120,14 +134,14 @@ public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageCh
                 return 3;
             }
         });
-        //设置默认进入的界面
-        sp = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean isFirstInstall = sp.getBoolean("first_install", true);
-        if (isFirstInstall) {
-            mViewPager.setCurrentItem(0);
-        } else {
-            mViewPager.setCurrentItem(1);
-        }
+//        //设置默认进入的界面
+//        sp = PreferenceManager.getDefaultSharedPreferences(this);
+//        boolean isFirstInstall = sp.getBoolean("first_install", true);
+//        if (isFirstInstall) {
+//            mViewPager.setCurrentItem(0);
+//        } else {
+//            mViewPager.setCurrentItem(1);
+//        }
     }
 
     @Override
@@ -169,4 +183,8 @@ public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageCh
         editor.apply();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }
