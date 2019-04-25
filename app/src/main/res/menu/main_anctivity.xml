@@ -11,17 +11,17 @@
 
     <item
         android:id="@+id/menu_more"
-        android:title="更改">
+        android:title="切换教师">
         <menu>
             <item
                 android:id="@+id/main_menu_der"
-                android:title="@string/change_der"
+                android:title="@string/junan"
                 android:orderInCategory="0"
                 />
             <item
                 android:id="@+id/main_menu_bgc"
                 android:orderInCategory="1"
-                android:title="@string/change_color"
+                android:title="@string/add_teacher"
                 />
         </menu>
     </item>

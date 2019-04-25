@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -15,16 +14,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.a84640.clockingin.R;
-import com.example.a84640.clockingin.activity.HelpActivity;
 import com.example.a84640.clockingin.fragment.DataFragment;
 import com.example.a84640.clockingin.fragment.NfcFragment;
-import com.example.a84640.clockingin.fragment.ToolsFragment;
-
-import java.util.zip.DataFormatException;
+import com.example.a84640.clockingin.fragment.TeacherFragment;
 
 /**
  *  主活动
@@ -43,7 +38,7 @@ public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageCh
     private ViewPager mViewPager;
     private NfcFragment mNfcFragment = new NfcFragment();
     private DataFragment mDataFragment = new DataFragment();
-    private ToolsFragment mToolsFragment = new ToolsFragment();
+    private TeacherFragment mToolsFragment = new TeacherFragment();
     private static Context sContext;
 
     /**
@@ -182,13 +177,13 @@ public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageCh
 
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        editor = sp.edit();
-        editor.putBoolean("first_install", false);
-        editor.apply();
-    }
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        editor = sp.edit();
+//        editor.putBoolean("first_install", false);
+//        editor.apply();
+//    }
 
     @Override
     public void onBackPressed() {

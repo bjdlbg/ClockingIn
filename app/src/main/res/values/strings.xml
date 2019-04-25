@@ -5,11 +5,11 @@
     <string name="title_activity_nfc">ClockingIn</string>
     <string name="title_home">NFC</string>
     <string name="title_dashboard">Chart</string>
-    <string name="title_notifications">Tools</string>
+    <string name="title_notifications">Teacher</string>
     <!--主界面menu-->
     <string name="help">帮助</string>
-    <string name="change_der">更改方向</string>
-    <string name="change_color">更改背景</string>
+    <string name="junan">刘俊男</string>
+    <string name="add_teacher">添加+</string>
     <string name="menu_about">关于</string>
     <string name="menu_esc">退出</string>
 </resources>
