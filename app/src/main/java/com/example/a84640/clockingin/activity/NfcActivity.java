@@ -27,6 +27,7 @@ import com.example.a84640.clockingin.fragment.ToolsFragment;
 import java.util.zip.DataFormatException;
 
 /**
+ *  主活动
  * @author jixiang
  * @date 2019/3/3
  */
@@ -62,6 +63,7 @@ public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageCh
                 case R.id.navigation_tools:
                     mViewPager.setCurrentItem(2);
                     break;
+                    default:break;
             }
             return false;
         }
@@ -161,6 +163,10 @@ public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageCh
 
     }
 
+    /**
+     * 提供上下文获取方法
+     * @return
+     */
     public static Context getContext() {
         return sContext;
     }
