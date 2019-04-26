@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+>
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            app:expandedTitleMarginBottom="100dp"
+            app:expandedTitleMarginStart="50dp"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:title="程普">
+
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="111dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="150dp"
+                android:layout_marginBottom="45dp"
+                android:text="日期"
+                android:textColor="#BE0505"
+                android:textSize="20sp"
+                app:layout_collapseMode="parallax" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="86dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="25dp"
+                android:layout_marginBottom="50dp"
+                android:text="当前时间："
+
+                app:layout_collapseMode="parallax" />
+
+            <TextView
+                android:layout_width="87dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="25dp"
+                android:layout_marginBottom="20dp"
+                android:text="剩余课时："
+                app:layout_collapseMode="parallax" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="111dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="150dp"
+                android:layout_marginBottom="15dp"
+                android:text="64（h）"
+                android:textColor="#BE0505"
+                android:textSize="20sp"
+                app:layout_collapseMode="parallax" />
+
+            <android.support.v7.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_gravity="top"
+                app:layout_collapseMode="pin">
+
+                <TextView
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:text="当前教师"/>
+
+
+
+            </android.support.v7.widget.Toolbar>
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/n_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycle_teacher"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </android.support.v4.widget.NestedScrollView>
+    <LinearLayout
+        android:id="@+id/ll_mycollection_bottom_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="#e6e6e6"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#e5e5e5"/>
+
+        <!--<RelativeLayout-->
+
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="45dp"-->
+            <!--android:background="#ffffff">-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/tv"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_marginLeft="15dp"-->
+                <!--android:text="已选择"-->
+                <!--android:textColor="#1A1A1A"-->
+                <!--android:textSize="14sp"/>-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/tv_select_num"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_marginLeft="9dp"-->
+                <!--android:layout_toRightOf="@+id/tv"-->
+                <!--android:text="0"-->
+                <!--android:textColor="#1A1A1A"-->
+                <!--android:textSize="14sp"/>-->
+
+            <!--<Button-->
+                <!--android:id="@+id/btn_delete"-->
+                <!--android:layout_width="80dp"-->
+                <!--android:layout_height="33dp"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_marginRight="15dp"-->
+                <!--android:background="@drawable/button_noclickable_shape"-->
+                <!--android:gravity="center"-->
+                <!--android:text="删除"-->
+                <!--android:textColor="#b7b8bd"-->
+                <!--android:textSize="14sp"/>-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/select_all"-->
+                <!--android:layout_width="80dp"-->
+                <!--android:layout_height="33dp"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_marginRight="15dp"-->
+                <!--android:layout_toLeftOf="@+id/btn_delete"-->
+
+                <!--android:gravity="center"-->
+                <!--android:text="全选"-->
+                <!--android:textColor="#000001"-->
+                <!--android:textSize="14sp"/>-->
+
+        <!--</RelativeLayout>-->
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>

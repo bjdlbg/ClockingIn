@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="300dp"
+    android:layout_height="300dp">
+
+    <ImageView
+        android:id="@+id/iv_studentdialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="79dp"
+        app:srcCompat="@drawable/student" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="28dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="147dp"
+        android:layout_marginEnd="42dp"
+        android:layout_toStartOf="@+id/textView_student_phone"
+        app:srcCompat="@android:drawable/ic_menu_call" />
+
+    <TextView
+        android:id="@+id/textView_student_phone"
+        android:layout_width="156dp"
+        android:layout_height="34dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="149dp"
+        android:layout_marginEnd="39dp"
+        android:text="186XXXXXXX" />
+
+    <TextView
+        android:id="@+id/textView_student_class"
+        android:layout_width="156dp"
+        android:layout_height="39dp"
+        android:layout_below="@+id/textView_student_phone"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="38dp"
+        android:text="网络工程三班" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView3"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="39dp"
+        android:layout_toStartOf="@+id/textView_student_class"
+        app:srcCompat="@android:drawable/ic_menu_edit" />
+</RelativeLayout>
