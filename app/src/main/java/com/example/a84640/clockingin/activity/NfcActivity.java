@@ -1,30 +1,28 @@
-package com.example.a84640.clockingin;
+package com.example.a84640.clockingin.activity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.a84640.clockingin.activity.HelpActivity;
+import com.example.a84640.clockingin.R;
 import com.example.a84640.clockingin.fragment.DataFragment;
 import com.example.a84640.clockingin.fragment.NfcFragment;
-import com.example.a84640.clockingin.fragment.ToolsFragment;
-
-import java.util.zip.DataFormatException;
+import com.example.a84640.clockingin.fragment.TeacherFragment;
 
 /**
+ *  主活动
  * @author jixiang
  * @date 2019/3/3
  */
@@ -40,19 +38,29 @@ public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageCh
     private ViewPager mViewPager;
     private NfcFragment mNfcFragment = new NfcFragment();
     private DataFragment mDataFragment = new DataFragment();
-    private ToolsFragment mToolsFragment = new ToolsFragment();
+    private TeacherFragment mToolsFragment = new TeacherFragment();
     private static Context sContext;
 
     /**
-     * 导航栏点击事件的监听接口
+     * 底部导航栏的点击监听接口的实现
      */
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
+            =new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            mViewPager.setCurrentItem(item.getOrder());
-            return true;
+        public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+            switch (menuItem.getItemId()) {
+                case R.id.navigation_nfc:
+                    mViewPager.setCurrentItem(0);
+                    break;
+                case R.id.navigation_chart:
+                    mViewPager.setCurrentItem(1);
+                    break;
+                case R.id.navigation_tools:
+                    mViewPager.setCurrentItem(2);
+                    break;
+                    default:break;
+            }
+            return false;
         }
     };
 
@@ -99,15 +107,19 @@ public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageCh
         //加载布局
         initView();
         sContext = getApplicationContext();
+
         mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
-            public Fragment getItem(int i) {
-                switch (i) {
+            public Fragment getItem(int position) {
+                switch (position) {
                     case 0:
+                        Log.d("change pager", "getItem: return frga1");
                         return mNfcFragment;
                     case 1:
+                        Log.d("change pager", "getItem: return frga2");
                         return mDataFragment;
                     case 2:
+                        Log.d("change pager", "getItem: return frga3");
                         return mToolsFragment;
                     default:
                         break;
@@ -120,14 +132,14 @@ public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageCh
                 return 3;
             }
         });
-        //设置默认进入的界面
-        sp = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean isFirstInstall = sp.getBoolean("first_install", true);
-        if (isFirstInstall) {
-            mViewPager.setCurrentItem(0);
-        } else {
-            mViewPager.setCurrentItem(1);
-        }
+//        //设置默认进入的界面
+//        sp = PreferenceManager.getDefaultSharedPreferences(this);
+//        boolean isFirstInstall = sp.getBoolean("first_install", true);
+//        if (isFirstInstall) {
+//            mViewPager.setCurrentItem(0);
+//        } else {
+//            mViewPager.setCurrentItem(1);
+//        }
     }
 
     @Override
@@ -146,6 +158,10 @@ public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageCh
 
     }
 
+    /**
+     * 提供上下文获取方法
+     * @return
+     */
     public static Context getContext() {
         return sContext;
     }
@@ -161,12 +177,16 @@ public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageCh
 
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        editor = sp.edit();
-        editor.putBoolean("first_install", false);
-        editor.apply();
-    }
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        editor = sp.edit();
+//        editor.putBoolean("first_install", false);
+//        editor.apply();
+//    }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }
