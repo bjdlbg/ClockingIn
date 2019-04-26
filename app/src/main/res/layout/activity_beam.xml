@@ -10,13 +10,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <TextView
+      <!--  <TextView
             android:id="@+id/tag_viewer_text"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:padding="6dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:autoLink="email|web" />
+            android:autoLink="email|web" />-->
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

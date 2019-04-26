@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.a84640.clockingin.R;
@@ -35,6 +36,7 @@ public class NfcFragment extends Fragment implements StudentInfo.OnItemClickList
     private RecyclerView mRecyclerView;
     private StudentAdapter mStudentAdapter=null;
     private List<StudentInfo> mStudentInfoList=new ArrayList<>();
+    public static LinearLayout linearLayout;
 
     @Nullable
     @Override
@@ -81,6 +83,7 @@ public class NfcFragment extends Fragment implements StudentInfo.OnItemClickList
         mButtonNext=(Button) rootView.findViewById(R.id.btn_next);
         mButtonRefuse=(Button) rootView.findViewById(R.id.btn_refuse);
         mRecyclerView=(RecyclerView)rootView.findViewById(R.id.my_stu_recyclerview);
+        linearLayout=(LinearLayout)rootView.findViewById(R.id.lists);
     }
 
     /**

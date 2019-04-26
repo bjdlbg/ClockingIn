@@ -67,8 +67,8 @@ public class Beam extends AppCompatActivity {
 
         mPendingIntent = PendingIntent.getActivity(this, 0,
                 new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
-        mNdefPushMessage = new NdefMessage(new NdefRecord[] { newTextRecord(
-                "Message from NFC Reader :-)", Locale.ENGLISH, true) });
+        mNdefPushMessage = new NdefMessage(new NdefRecord[]{newTextRecord(
+                "Message from NFC Reader :-)", Locale.ENGLISH, true)});
     }
 
     private void showMessage(int title, int message) {
@@ -154,8 +154,8 @@ public class Beam extends AppCompatActivity {
                 Tag tag = (Tag) intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
                 byte[] payload = dumpTagData(tag).getBytes();
                 NdefRecord record = new NdefRecord(NdefRecord.TNF_UNKNOWN, empty, id, payload);
-                NdefMessage msg = new NdefMessage(new NdefRecord[] { record });
-                msgs = new NdefMessage[] { msg };
+                NdefMessage msg = new NdefMessage(new NdefRecord[]{record});
+                msgs = new NdefMessage[]{msg};
                 mTags.add(tag);
             }
             // Setup the views
@@ -403,11 +403,11 @@ public class Beam extends AppCompatActivity {
 
     private void clearTags() {
         mTags.clear();
-        for (int i = mTagContent.getChildCount() -1; i >= 0 ; i--) {
+        for (int i = mTagContent.getChildCount() - 1; i >= 0; i--) {
             View view = mTagContent.getChildAt(i);
-            if (view.getId() != R.id.tag_viewer_text) {
+            //if (view.getId() != R.id.tag_viewer_text) {
                 mTagContent.removeViewAt(i);
-            }
+            //}
         }
     }
 

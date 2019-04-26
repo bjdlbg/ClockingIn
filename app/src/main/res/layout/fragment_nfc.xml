@@ -1,38 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="6"
-        android:background="@color/colorPrimary">
+        android:background="@color/colorPrimary"
+        android:orientation="vertical">
 
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_weight="9"
+            android:id="@+id/lists"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"></LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_weight="9"
+            android:orientation="horizontal"
             tools:ignore="NestedWeights">
 
             <View
-                android:layout_weight="3"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:layout_weight="3" />
+
             <ImageView
-                android:src="@drawable/card"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="4"
-                android:layout_width="0dp"
-                android:layout_height="match_parent" />
+                android:src="@drawable/card" />
+
             <View
-                android:layout_weight="3"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:layout_weight="3" />
 
         </LinearLayout>
 
@@ -72,34 +79,37 @@
 
 
     <LinearLayout
-       android:layout_weight="4"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_weight="4"
         android:background="@color/colorPrimaryDark"
         android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="30dp">
+
             <TextView
                 android:id="@+id/tv_class_number"
-                android:text="网工三班："
-                android:textSize="19sp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="网工三班："
+                android:textSize="19sp" />
+
             <TextView
                 android:id="@+id/tv_stu_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="70dp"
                 android:text="总人数："
-                android:textSize="19sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textSize="19sp" />
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/my_stu_recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-        
+            android:layout_height="match_parent" />
+
     </LinearLayout>
 
 </LinearLayout>
