@@ -1,34 +1,49 @@
 package com.example.a84640.clockingin.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.a84640.clockingin.R;
 import com.example.a84640.clockingin.bean.StudentInfo;
 import com.example.a84640.clockingin.provider.StudentAdapter;
+import com.example.a84640.clockingin.utilities.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
+
+import static com.example.a84640.clockingin.utilities.NetUtils.LoginByPost;
 
 /**
- * 第一个界面，用来刷卡，读卡，学生信息比对
+ * 第一个界面，用来刷卡，读卡，学生信息比对，签到。
  * @author jixiang
  * @date 2019/3/3
  */
-public class NfcFragment extends Fragment implements StudentInfo.OnItemClickListener {
+public class NfcFragment extends Fragment implements StudentInfo.OnItemClickListener{
 
     public View rootView;
     private Button mButtonRefuse;
@@ -37,6 +52,7 @@ public class NfcFragment extends Fragment implements StudentInfo.OnItemClickList
     private StudentAdapter mStudentAdapter=null;
     private List<StudentInfo> mStudentInfoList=new ArrayList<>();
     public static LinearLayout linearLayout;
+    private TextView mTextView;
 
     @Nullable
     @Override
@@ -48,7 +64,10 @@ public class NfcFragment extends Fragment implements StudentInfo.OnItemClickList
         mButtonRefuse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                    MyTask myTask=new MyTask();
+                    myTask.execute();
 
+                Log.d("network","成功显示数据:");
             }
         });
         //下一个按钮点击事件
@@ -58,11 +77,8 @@ public class NfcFragment extends Fragment implements StudentInfo.OnItemClickList
 
             }
         });
-
         setLayout();//设置列表布局
         initStudentMessage();//设置列表信息
-
-
         return rootView;
     }
 
@@ -80,6 +96,7 @@ public class NfcFragment extends Fragment implements StudentInfo.OnItemClickList
      * 载入控件
      */
     public void initView(){
+        mTextView=(TextView)rootView.findViewById(R.id.text_3s);
         mButtonNext=(Button) rootView.findViewById(R.id.btn_next);
         mButtonRefuse=(Button) rootView.findViewById(R.id.btn_refuse);
         mRecyclerView=(RecyclerView)rootView.findViewById(R.id.my_stu_recyclerview);
@@ -100,7 +117,6 @@ public class NfcFragment extends Fragment implements StudentInfo.OnItemClickList
     }
 
     /**
-     *
      * 设置适配器与列表布局
      */
     public void setLayout(){
@@ -140,6 +156,26 @@ public class NfcFragment extends Fragment implements StudentInfo.OnItemClickList
         builder.setView(dialog);
         builder.create().show();
     }
+
+
+    /**
+     * 网络请求需要放在异步线程之中
+     */
+    @SuppressLint("StaticFieldLeak")
+        public class MyTask extends android.os.AsyncTask<String,Void,String> {
+
+            @Override
+            protected String doInBackground(String... strings) {
+                return LoginByPost("180","18","http://192.168.1.123:8080/hello");
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                mTextView.setText(s);
+            }
+        }
+
 
 
 }

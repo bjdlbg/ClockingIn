@@ -122,12 +122,12 @@ public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageCh
                 startActivity(intent);
                 break;
             case R.id.main_menu_der:
-                //TODO:添加手机界面反转
-                Toast.makeText(sContext, "已经横屏显示", Toast.LENGTH_SHORT).show();
+                //TODO:切换一个老师
+                Toast.makeText(sContext, "切换到教师刘俊男", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.main_menu_bgc:
-                //TODO:添加手机主题切换
-                Toast.makeText(sContext, "请选择手机主题", Toast.LENGTH_SHORT).show();
+                //TODO:添加一个老师
+                Toast.makeText(sContext, "添加一个教师", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.main_menu_about:
                 //TODO:添加关于app的开发信息
@@ -150,6 +150,7 @@ public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageCh
         initView();
         sContext = getApplicationContext();
 
+        //三个界面
         mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {

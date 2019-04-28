@@ -19,8 +19,12 @@ import android.os.Parcelable;
 import android.provider.Settings;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 /**
  * @auther jixiang
@@ -181,3 +185,5 @@ public class NfcUtils {
     }
 
 }
+
+
