@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="79dp"
+        android:layout_marginStart="88dp"
         app:srcCompat="@drawable/student" />
 
     <ImageView
@@ -30,8 +30,8 @@
         android:layout_height="34dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="149dp"
-        android:layout_marginEnd="39dp"
+        android:layout_marginTop="148dp"
+        android:layout_marginEnd="36dp"
         android:text="186XXXXXXX" />
 
     <TextView
@@ -40,8 +40,18 @@
         android:layout_height="39dp"
         android:layout_below="@+id/textView_student_phone"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="38dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="32dp"
+        android:text="网络工程三班" />
+
+    <TextView
+        android:id="@+id/textView_student_class2"
+        android:layout_width="156dp"
+        android:layout_height="39dp"
+        android:layout_below="@+id/textView_student_class"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="31dp"
         android:text="网络工程三班" />
 
     <ImageView
@@ -50,8 +60,19 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/imageView3"
         android:layout_marginStart="28dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="39dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="42dp"
+        android:layout_toStartOf="@+id/textView_student_class"
+        app:srcCompat="@android:drawable/ic_menu_edit" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView4"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginEnd="41dp"
         android:layout_toStartOf="@+id/textView_student_class"
         app:srcCompat="@android:drawable/ic_menu_edit" />
 </RelativeLayout>

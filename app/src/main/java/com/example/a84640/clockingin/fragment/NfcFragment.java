@@ -161,12 +161,11 @@ public class NfcFragment extends Fragment implements StudentInfo.OnItemClickList
     /**
      * 网络请求需要放在异步线程之中
      */
-    @SuppressLint("StaticFieldLeak")
         public class MyTask extends android.os.AsyncTask<String,Void,String> {
 
             @Override
             protected String doInBackground(String... strings) {
-                return LoginByPost("180","18","http://192.168.1.123:8080/hello");
+                return LoginByPost("180","18","http://192.168.43.75:8080/hello");
             }
 
             @Override
