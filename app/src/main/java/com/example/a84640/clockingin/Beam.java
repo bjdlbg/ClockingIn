@@ -463,4 +463,6 @@ public class Beam extends AppCompatActivity {
         setIntent(intent);
         resolveIntent(intent);
     }
+
+
 }

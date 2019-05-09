@@ -61,6 +61,7 @@ public class NfcFragment extends Fragment implements StudentInfo.OnItemClickList
         //加载控件
         initView();
         //拒绝签到点击事件
+
         mButtonRefuse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

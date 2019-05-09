@@ -37,7 +37,7 @@
         android:layout_height="51dp"
         android:layout_marginTop="256dp"
         android:layout_marginEnd="80dp"
-        android:text="测试网络"
+        android:text="发送文本"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="68dp"
         android:layout_marginTop="256dp"
-        android:text="开启服务端"
+        android:text="测试步进电机"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

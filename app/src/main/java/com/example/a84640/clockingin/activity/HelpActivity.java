@@ -46,7 +46,7 @@ public class HelpActivity extends AppCompatActivity {
             }
         });
 
-        //开启服务端
+        //测试步进电机
         mButtonOpen=(Button)findViewById(R.id.button_turn_on);
         mButtonOpen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,10 +89,11 @@ public class HelpActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * 测试用，帮助界面点击左侧按钮，测试步进电机
+     */
     @SuppressLint("StaticFieldLeak")
     public class TestPortTask extends AsyncTask<String,Void,String>{
-
-
         @Override
         protected String doInBackground(String... strings) {
             return NetUtils.sendTextToServer("", "http://192.168.43.75:8080/testPort");
