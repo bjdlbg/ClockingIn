@@ -76,11 +76,15 @@ public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageCh
      * 底部导航栏
      */
     private BottomNavigationView mNavigationView;
-    private ViewPager mViewPager;
+    public ViewPager mViewPager;
     private NfcFragment mNfcFragment = new NfcFragment();
     private DataFragment mDataFragment = new DataFragment();
     private TeacherFragment mToolsFragment = new TeacherFragment();
     private static Context sContext;
+
+    public ViewPager getViewPager(){
+        return mViewPager;
+    }
 
     /**
      * 底部导航栏的点击监听接口的实现
@@ -149,6 +153,7 @@ public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageCh
         //加载布局
         initView();
         sContext = getApplicationContext();
+        //拉去学生名单
 
         //三个界面
         mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {

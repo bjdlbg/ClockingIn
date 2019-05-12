@@ -1,14 +1,21 @@
 package com.example.a84640.clockingin.fragment;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.a84640.clockingin.R;
+import com.example.a84640.clockingin.activity.NfcActivity;
 import com.example.a84640.clockingin.bean.StudentInfo;
 import com.example.a84640.clockingin.provider.StudentAdapter;
 import com.example.a84640.clockingin.utilities.Test;
@@ -53,6 +61,12 @@ public class NfcFragment extends Fragment implements StudentInfo.OnItemClickList
     private List<StudentInfo> mStudentInfoList=new ArrayList<>();
     public static LinearLayout linearLayout;
     private TextView mTextView;
+    //用于接收广播
+    private LocalBroadcastManager broadcastManager;
+    private IntentFilter intentFilter;
+    private BroadcastReceiver mReceiver;
+    private TextView mClassNumber;
+    private TextView mStuNumber;
 
     @Nullable
     @Override
@@ -61,7 +75,6 @@ public class NfcFragment extends Fragment implements StudentInfo.OnItemClickList
         //加载控件
         initView();
         //拒绝签到点击事件
-
         mButtonRefuse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,6 +84,7 @@ public class NfcFragment extends Fragment implements StudentInfo.OnItemClickList
                 Log.d("network","成功显示数据:");
             }
         });
+
         //下一个按钮点击事件
         mButtonNext.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +93,7 @@ public class NfcFragment extends Fragment implements StudentInfo.OnItemClickList
             }
         });
         setLayout();//设置列表布局
-        initStudentMessage();//设置列表信息
+
         return rootView;
     }
 
@@ -93,6 +107,61 @@ public class NfcFragment extends Fragment implements StudentInfo.OnItemClickList
         super.onResume();
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        broadcastManager=LocalBroadcastManager.getInstance(getActivity());
+        intentFilter=new IntentFilter();
+        intentFilter.addAction("com.example.a84640.clockingin.teacherfragment");
+
+        mReceiver=new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                intent.getExtras();
+                final Bundle bd=intent.getExtras();
+                String number=bd.getString("class_stu_number");
+                String className=bd.getString("class_name");
+                mStuNumber.setText("人数："+number);
+                mClassNumber.setText("班级："+className);
+                //收到广播跳转到第一个界面
+                NfcActivity activity=(NfcActivity)getActivity();
+                if (activity != null) {
+                    activity.getViewPager().setCurrentItem(0);
+                }
+                //学生列表么有数据的话更新列表
+//                if(mStudentInfoList.isEmpty()){
+//                    updateStuRv(className);
+//                    Toast.makeText(getContext(),"学生列表已经更新",Toast.LENGTH_SHORT).show();
+//                }else {
+//                    Toast.makeText(getActivity(),"请刷卡来签到",Toast.LENGTH_SHORT).show();
+//                }
+                updateStuRv(className);
+            }
+        };
+        broadcastManager.registerReceiver(mReceiver, intentFilter);
+    }
+
+    /**
+     * 根据获得的学生列表数据刷新rv
+     * @param key
+     */
+    private void updateStuRv(String key) {
+        SharedPreferences sharedPreferences=getContext().getSharedPreferences(key,0);
+        final String[] arrayOfString = sharedPreferences.getString(key,"").split(",");
+        for (int i=0;i<arrayOfString.length;i++){
+            StudentInfo studentInfo=new StudentInfo();
+            studentInfo.setStudentName(arrayOfString[i]);
+            studentInfo.setStudentImage(R.drawable.student);
+            mStudentInfoList.add(studentInfo);
+            mStudentAdapter.notifyAdapter(mStudentInfoList,false);
+        }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+    }
+
     /**
      * 载入控件
      */
@@ -102,20 +171,24 @@ public class NfcFragment extends Fragment implements StudentInfo.OnItemClickList
         mButtonRefuse=(Button) rootView.findViewById(R.id.btn_refuse);
         mRecyclerView=(RecyclerView)rootView.findViewById(R.id.my_stu_recyclerview);
         linearLayout=(LinearLayout)rootView.findViewById(R.id.lists);
+        mStuNumber=(TextView)rootView.findViewById(R.id.tv_stu_number);
+        mClassNumber=(TextView)rootView.findViewById(R.id.tv_class_number);
     }
 
-    /**
-     * 载入数据（暂时使用虚拟数据）
-     */
-    public void initStudentMessage(){
-        for (int i=1;i<=7;i++){
-            StudentInfo studentInfo=new StudentInfo();
-            studentInfo.setStudentImage(R.drawable.student);
-            studentInfo.setStudentName("张三");
-            mStudentInfoList.add(studentInfo);
-            mStudentAdapter.notifyAdapter(mStudentInfoList,false);
-        }
-    }
+//    /**
+//     * 载入数据（暂时使用虚拟数据）
+//     */
+//    public void initStudentMessage(){
+////        for (int i=1;i<=7;i++){
+////            StudentInfo studentInfo=new StudentInfo();
+////            studentInfo.setStudentImage(R.drawable.student);
+////            studentInfo.setStudentName("张三");
+////            mStudentInfoList.add(studentInfo);
+////            mStudentAdapter.notifyAdapter(mStudentInfoList,false);
+////        }
+//
+//
+//    }
 
     /**
      * 设置适配器与列表布局

@@ -94,7 +94,8 @@
                 android:id="@+id/tv_class_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="网工三班："
+                android:text="班级："
+                android:layout_marginLeft="5dp"
                 android:textSize="19sp" />
 
             <TextView

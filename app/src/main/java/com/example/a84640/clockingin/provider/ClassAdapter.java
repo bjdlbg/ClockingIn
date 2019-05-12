@@ -6,9 +6,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.a84640.clockingin.R;
-import com.example.a84640.clockingin.bean.Class;
+import com.example.a84640.clockingin.bean.TeacherClass;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,54 +19,121 @@ import java.util.List;
  * @author jixiang
  * @date 2019/4/25
  */
-public class ClassAdapter extends RecyclerView.Adapter implements Class.OnItemClickListener {
+public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder>{
     private static final int IS_NOT_DONE=0;
     int mClassStatus=IS_NOT_DONE;
-//    private Context context;
-    private List<Class> mClasses=new ArrayList<>();
+    private Context context;
+    private List<TeacherClass> mTeacherClasses =new ArrayList<>();
+    private onItemClickListener onItemClickListener;
+    private onItemLongClickListener onItemLongClickListener;
 
-//    public ClassAdapter(Context context) {
-//        this.context = context;
-//    }
-
-    public ClassAdapter(List<Class> classes){
-        this.mClasses=classes;
+    public ClassAdapter(Context context) {
+        this.context = context;
     }
+
+    public ClassAdapter(List<TeacherClass> teacherClasses){
+        this.mTeacherClasses = teacherClasses;
+    }
+
+    public void setItemClickListener(onItemClickListener mItemClickListener) {
+        onItemClickListener = mItemClickListener;
+    }
+
+    public void setItemLongClickListener(onItemLongClickListener mItemLongClickListener) {
+        onItemLongClickListener = mItemLongClickListener;
+    }
+
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        if (context==null){
+            context=viewGroup.getContext();
+        }
         View view= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_class,viewGroup,false);
-        final StudentAdapter.ViewHolder holder=new StudentAdapter.ViewHolder(view);
+        final ClassAdapter.ViewHolder holder=new ClassAdapter.ViewHolder(view);
+        //绑定点击事件接口
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = holder.getAdapterPosition();
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClick(v, position);
+                }
+            }
+        });
+
+        //长按接口
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                int position = holder.getAdapterPosition();
+                if (onItemLongClickListener != null) {
+                    onItemLongClickListener.onItemLongClick(v, position);
+                }
+                return true;
+            }
+        });
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+        TeacherClass teacherClass=mTeacherClasses.get(i);
+        //根据上课状态设置res
+       if (!teacherClass.isHaveDone()){
+           viewHolder.isDone.setImageResource(R.drawable.unselect);
+       }else {
+           viewHolder.isDone.setImageResource(R.drawable.select);
+       }
+        viewHolder.techerClass.setText(teacherClass.getClassMessage());
     }
+
 
     @Override
     public int getItemCount() {
-        return mClasses.size();
+        return mTeacherClasses.size();
     }
 
-    /**
-     * 课表item点击事件
-     * @param position
-     */
-    @Override
-    public void onItemClick(int position) {
-        //TODO:点击item跳转到第一个界面（需要传值）
-    }
 
     /**刷新适配器*/
-    public void notifyAdapter(List<Class> photoImageList, boolean isAdd) {
+    public void notifyAdapter(List<TeacherClass> photoImageList, boolean isAdd) {
         if (!isAdd) {
-            this.mClasses = photoImageList;
+            this.mTeacherClasses = photoImageList;
         } else {
-            this.mClasses.addAll(photoImageList);
+            this.mTeacherClasses.addAll(photoImageList);
         }
         notifyDataSetChanged();
     }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        public TextView techerClass;
+        public ImageView isDone;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            techerClass = (TextView) itemView.findViewById(R.id.class_name);
+            isDone = (ImageView) itemView.findViewById(R.id.pic_class_whether_done);
+        }
+    }
+
+    /**
+     * 设置监听接口
+     */
+    public interface onItemClickListener {
+        /**
+         * @param view
+         * @param position
+         */
+        public void onItemClick(View view, int position);
+
+    }
+
+    /**
+     * 长按监听接口
+     */
+    public interface onItemLongClickListener {
+        public void onItemLongClick(View view, int position);
+    }
+
 }

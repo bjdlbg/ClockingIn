@@ -1,13 +1,25 @@
 package com.example.a84640.clockingin.bean;
 
+import android.content.SharedPreferences;
+
 /**
  * @author jixiang
  * @date 2019/4/25
  */
-public class Class {
+public class TeacherClass {
     private String classMessage;
     private boolean haveDone;
     private long classDate;
+    private SharedPreferences studentSp;
+
+    public SharedPreferences getStudentSp() {
+        return studentSp;
+    }
+
+    public void setStudentSp(SharedPreferences studentSp) {
+        this.studentSp = studentSp;
+    }
+
 
     public String getClassMessage() {
         return classMessage;
@@ -33,10 +45,4 @@ public class Class {
         this.classDate = classDate;
     }
 
-    /**
-     * 课表点击事件
-     */
-    public interface OnItemClickListener{
-        void onItemClick(int position);
-    }
 }

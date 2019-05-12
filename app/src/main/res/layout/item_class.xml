@@ -2,6 +2,8 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="@color/textcolor"
+    android:layout_margin="5dp"
     android:layout_height="60dp">
 
     <TextView
@@ -18,7 +20,19 @@
         android:textSize="20dp" />
 
     <TextView
-        android:id="@+id/class_name2"
+        android:id="@+id/class_stu_number"
+        android:layout_width="51dp"
+        android:layout_height="28dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="17dp"
+        android:layout_toEndOf="@+id/class_name"
+        android:text="6人"
+        android:textSize="20dp" />
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="24dp"
         android:layout_alignParentTop="true"

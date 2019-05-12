@@ -12,6 +12,7 @@ import java.net.URL;
 import java.security.KeyStore;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.Random;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -31,9 +32,9 @@ public class Test {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-String urlStr = "https://192.168.1.123:8080/hello";
-getURLContent();
-       System.out.println(getURLContent(urlStr));
+//String urlStr = "https://192.168.1.123:8080/hello";
+//getURLContent();
+//       System.out.println(getURLContent(urlStr));
         //getJsonByInternet("http://192.168.1.123:8080/hello");
     //    System.out.print(LoginByPost("180","18","http://192.168.1.123:8080/liaoxianghe"));
     }
@@ -90,6 +91,5 @@ getURLContent();
         System.out.println(result);
         return result;
     }
-
 
 }
