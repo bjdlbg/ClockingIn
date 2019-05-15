@@ -135,7 +135,7 @@ public class NfcFragment extends Fragment implements StudentInfo.OnItemClickList
 //                }else {
 //                    Toast.makeText(getActivity(),"请刷卡来签到",Toast.LENGTH_SHORT).show();
 //                }
-                updateStuRv(className);
+
             }
         };
         broadcastManager.registerReceiver(mReceiver, intentFilter);
@@ -146,15 +146,7 @@ public class NfcFragment extends Fragment implements StudentInfo.OnItemClickList
      * @param key
      */
     private void updateStuRv(String key) {
-        SharedPreferences sharedPreferences=getContext().getSharedPreferences(key,0);
-        final String[] arrayOfString = sharedPreferences.getString(key,"").split(",");
-        for (int i=0;i<arrayOfString.length;i++){
-            StudentInfo studentInfo=new StudentInfo();
-            studentInfo.setStudentName(arrayOfString[i]);
-            studentInfo.setStudentImage(R.drawable.student);
-            mStudentInfoList.add(studentInfo);
-            mStudentAdapter.notifyAdapter(mStudentInfoList,false);
-        }
+
     }
 
     @Override

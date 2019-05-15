@@ -1,11 +1,11 @@
 package com.example.a84640.clockingin.fragment;
 
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,10 +24,14 @@ import com.example.a84640.clockingin.activity.NfcActivity;
 import com.example.a84640.clockingin.R;
 import com.example.a84640.clockingin.bean.TeacherClass;
 import com.example.a84640.clockingin.provider.ClassAdapter;
+import com.example.a84640.clockingin.utilities.NetUtils;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeoutException;
 
 /**
  * @author jixiang
@@ -64,6 +68,14 @@ public class TeacherFragment extends Fragment {
         rootView=inflater.inflate(R.layout.fragment_teacher,container,false);
         //初始化控件
         initView(rootView);
+        mTextViewDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //调试json
+                MyTaskTeacherClass myTaskTeacherClass=new MyTaskTeacherClass();
+                myTaskTeacherClass.execute("教师一号");
+            }
+        });
         mClassAdapter=new ClassAdapter(mTeacherClasses);
 
         //上课列表绑定点击事件
@@ -83,36 +95,36 @@ public class TeacherFragment extends Fragment {
         mClassAdapter.setItemLongClickListener(new ClassAdapter.onItemLongClickListener() {
             @Override
             public void onItemLongClick(View view, int position) {
-                mSharedPreferences=mTeacherClasses.get(position).getStudentSp();
-                final SharedPreferences.Editor editor=mSharedPreferences.edit();
-                //根据名字取出sp
-                final String key=mTeacherClasses.get(position).getClassMessage();
-                Log.d("teacherfragment","click the item"+key);
-                String value=mSharedPreferences.getString(key,"");
-                String message="";
-                if (value.equals("")){
-                    message="当前课程还没有学生";
-                }else {
-                    message="当前的课程学生名单为"+value;
-                }
+//                mSharedPreferences=mTeacherClasses.get(position).getStudentSp();
+//                final SharedPreferences.Editor editor=mSharedPreferences.edit();
+//                //根据名字取出sp
+//                final String key=mTeacherClasses.get(position).getClassMessage();
+//                Log.d("teacherfragment","click the item"+key);
+                //String value=mSharedPreferences.getString(key,"");
+//                String message="";
+//                if (value.equals("")){
+//                    message="当前课程还没有学生";
+//                }else {
+//                    message="当前的课程学生名单为"+value;
+//                }
                 //TODO:当前弹框么有学生
-                Toast.makeText(getContext(),"当前sp么有内容",Toast.LENGTH_SHORT).show();
-                AlertDialog dialog=new AlertDialog.Builder(getContext()).setTitle("提示").setMessage(message)
-                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .setPositiveButton("添加", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                //显示添加学生dialog
-                                addStudentDialog(key);
-                                dialog.dismiss();
-                            }
-                        }).create();
-                dialog.show();
+//                Toast.makeText(getContext(),"当前sp么有内容",Toast.LENGTH_SHORT).show();
+//                AlertDialog dialog=new AlertDialog.Builder(getContext()).setTitle("提示").setMessage(message)
+//                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                dialog.dismiss();
+//                            }
+//                        })
+//                        .setPositiveButton("添加", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                //显示添加学生dialog
+//                                addStudentDialog(key);
+//                                dialog.dismiss();
+//                            }
+//                        }).create();
+//                dialog.show();
 
             }
         });
@@ -132,12 +144,11 @@ public class TeacherFragment extends Fragment {
         Bundle bundle=new Bundle();
         bundle.putString("class_name",className);
         bundle.putString("class_stu_number",studentNum);
-        //bundle.putString("photo_path",mFileName);
         intent.putExtras(bundle);
         intent.setAction("com.example.a84640.clockingin.teacherfragment");
         LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
         Toast.makeText(getActivity(),"发送了一条广播",Toast.LENGTH_SHORT).show();
-        //刷新rv
+        //TODO:刷新rv
     }
 
     /**
@@ -149,13 +160,14 @@ public class TeacherFragment extends Fragment {
         mRecyclerView=(RecyclerView)rootView.findViewById(R.id.recycle_teacher);
         LinearLayoutManager layoutManager=new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(layoutManager);
+        mTextViewDate=(TextView)rootView.findViewById(R.id.textView_time);
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         Log.d("teacher", "teacher fragment is open");
         super.onCreate(savedInstanceState);
-        initMessage();
+        //initMessage();
     }
 
     @Override
@@ -165,22 +177,51 @@ public class TeacherFragment extends Fragment {
     }
 
     /**
-     * 载入程普课表信息
+     * 载入程普课表信息（已经使用server端数据来代替了）
      */
-    private void initMessage(){
+//    private void initMessage(){
+////        List list=new ArrayList();
+////        list.add(0,"周二上午一二节");
+////        list.add(1,"周二上午三四节");
+////        list.add(2,"周三上午一二节");
+////        list.add(3,"周三上午三四节");
+////        list.add(4,"周二下午一二节");
+//       // List list=getStudentListByTeacherName();
+//        for (int i=0;i<=4;i++){
+//            TeacherClass teacherClass=new TeacherClass();
+//            //teacherClass.setClassMessage(list.get(i).toString());
+//            //teacherClass.setStudentSp(this.getActivity().getSharedPreferences(list.get(i).toString(),0));
+//            teacherClass.setHaveDone(false);
+//            mTeacherClasses.add(teacherClass);
+//        }
+//    }
+//
+
+    /**
+     * 获取老师列表
+     * @param teacherName
+     */
+    public List getStudentListByTeacherName(String teacherName){
+
+        String json=NetUtils.getClassFromServer(teacherName,"http://192.168.43.75:8080/selectClassByTeacherName");
         List list=new ArrayList();
-        list.add(0,"周二上午一二节");
-        list.add(1,"周二上午三四节");
-        list.add(2,"周三上午一二节");
-        list.add(3,"周三上午三四节");
-        list.add(4,"周二下午一二节");
-        for (int i=0;i<=4;i++){
-            TeacherClass teacherClass=new TeacherClass();
-            teacherClass.setClassMessage(list.get(i).toString());
-            teacherClass.setStudentSp(this.getActivity().getSharedPreferences(list.get(i).toString(),0));
-            teacherClass.setHaveDone(false);
-            mTeacherClasses.add(teacherClass);
+        Log.d("json debug","从server获取数据"+json);
+        try {
+            JSONArray jsonArray=new JSONArray(json);
+            for (int i=0;i<jsonArray.length();i++){
+                JSONObject jsonObject=jsonArray.getJSONObject(i);
+                String className=jsonObject.optString("Tclass",null);
+                //调试
+                Log.d("json debug","收到的数据"+i+className);
+                list.add(i,className);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+
         }
+
+        return list;
+
     }
 
     /**
@@ -211,19 +252,56 @@ public class TeacherFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         for (int i = 0; i < checkedItems.length; i++) {
                             if (checkedItems[i]) {
-                                //将学生名字存入sp
-                                SharedPreferences sharedPreferences=getContext().getSharedPreferences(key,0);
-                                SharedPreferences.Editor editor=sharedPreferences.edit();
-                                editor.putString(key,items[i]+",");
-                                editor.apply();
+//                                //将学生名字存入sp
+//                                SharedPreferences sharedPreferences=getContext().getSharedPreferences(key,0);
+//                                SharedPreferences.Editor editor=sharedPreferences.edit();
+//                                editor.putString(key,items[i]+",");
+//                                editor.apply();
 
                             }
                         }
-                        Log.d("show sp value","当前sp的内容为"+mSharedPreferences.getString(key,""));
+                        //Log.d("show sp value","当前sp的内容为"+mSharedPreferences.getString(key,""));
                         dialog.dismiss();
                     }
 
                 }).create();
         dialog.show();
+    }
+
+    /**
+     * 请求教师列表的线程
+     * TODO：添加progressBAr
+     */
+    public class MyTaskTeacherClass extends AsyncTask<String,Void,List>{
+
+
+        @Override
+        protected List doInBackground(String... strings) {
+            String teacherName=strings[0];
+            List list=getStudentListByTeacherName(teacherName);
+            if (list==null){
+                return null;
+            }
+            return list;
+        }
+
+        /**
+         * 执行ui线程
+         * @param list
+         */
+        @Override
+        protected void onPostExecute(List list) {
+            super.onPostExecute(list);
+            for (int i=0;i<list.size();i++){
+                TeacherClass teacherClass=new TeacherClass();
+                teacherClass.setClassMessage(list.get(i).toString());
+                //teacherClass.setStudentSp(this.getActivity().getSharedPreferences(list.get(i).toString(),0));
+                teacherClass.setHaveDone(false);//默认没有上过
+                mTeacherClasses.add(teacherClass);
+            }
+            //刷新适配器
+            mClassAdapter.notifyAdapter(mTeacherClasses,false);
+
+        }
     }
 }

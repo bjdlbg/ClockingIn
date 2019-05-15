@@ -10,15 +10,7 @@ public class TeacherClass {
     private String classMessage;
     private boolean haveDone;
     private long classDate;
-    private SharedPreferences studentSp;
 
-    public SharedPreferences getStudentSp() {
-        return studentSp;
-    }
-
-    public void setStudentSp(SharedPreferences studentSp) {
-        this.studentSp = studentSp;
-    }
 
 
     public String getClassMessage() {
