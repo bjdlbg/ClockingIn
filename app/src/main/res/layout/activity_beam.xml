@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        tools:ignore="MissingConstraints">
+        tools:ignore="MissingConstraints"
+        android:visibility="gone">
       <!--  <TextView
             android:id="@+id/tag_viewer_text"
             android:layout_width="fill_parent"

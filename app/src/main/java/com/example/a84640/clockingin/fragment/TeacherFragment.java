@@ -46,8 +46,7 @@ public class TeacherFragment extends Fragment {
     private TextView mTextViewDate;
     private TextView mTextViewHour;
     private RecyclerView mRecyclerView;
-    //用于存储对应学生列表
-    private SharedPreferences mSharedPreferences;
+
 
 
     /**
@@ -68,14 +67,7 @@ public class TeacherFragment extends Fragment {
         rootView=inflater.inflate(R.layout.fragment_teacher,container,false);
         //初始化控件
         initView(rootView);
-        mTextViewDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //调试json
-                MyTaskTeacherClass myTaskTeacherClass=new MyTaskTeacherClass();
-                myTaskTeacherClass.execute("教师一号");
-            }
-        });
+
         mClassAdapter=new ClassAdapter(mTeacherClasses);
 
         //上课列表绑定点击事件
@@ -167,7 +159,10 @@ public class TeacherFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         Log.d("teacher", "teacher fragment is open");
         super.onCreate(savedInstanceState);
-        //initMessage();
+
+        //首先拉取教师一的信息
+        MyTaskTeacherClass myTaskTeacherClass=new MyTaskTeacherClass();
+        myTaskTeacherClass.execute("教师一号");
     }
 
     @Override
@@ -199,10 +194,10 @@ public class TeacherFragment extends Fragment {
 
     /**
      * 获取老师列表
+     * json解析为list
      * @param teacherName
      */
     public List getStudentListByTeacherName(String teacherName){
-
         String json=NetUtils.getClassFromServer(teacherName,"http://192.168.43.75:8080/selectClassByTeacherName");
         List list=new ArrayList();
         Log.d("json debug","从server获取数据"+json);
@@ -219,7 +214,6 @@ public class TeacherFragment extends Fragment {
             e.printStackTrace();
 
         }
-
         return list;
 
     }
@@ -277,7 +271,7 @@ public class TeacherFragment extends Fragment {
 
         @Override
         protected List doInBackground(String... strings) {
-            String teacherName=strings[0];
+            String teacherName=strings[0];//参数列表
             List list=getStudentListByTeacherName(teacherName);
             if (list==null){
                 return null;

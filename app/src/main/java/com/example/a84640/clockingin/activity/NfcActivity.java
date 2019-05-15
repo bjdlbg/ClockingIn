@@ -58,7 +58,7 @@ import java.util.Locale;
  * @date 2019/3/3
  */
 public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
-    // public static final String NFC_id = "nfc_id";
+    public static long NFC_id = 123456;
     private SharedPreferences sp;
     private SharedPreferences.Editor editor;
 
@@ -153,7 +153,6 @@ public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageCh
         //加载布局
         initView();
         sContext = getApplicationContext();
-        //拉去学生名单
 
         //三个界面
         mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
@@ -319,6 +318,10 @@ public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageCh
         return;
     }
 
+    /**
+     * 读卡解析intent
+     * @param intent
+     */
     private void resolveIntent(Intent intent) {
         String action = intent.getAction();
         if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(action)
@@ -344,6 +347,9 @@ public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageCh
             }
             // Setup the views
             buildTagViews(msgs);
+            //显示卡片id
+            Toast.makeText(this,String.valueOf(NFC_id),Toast.LENGTH_SHORT).show();
+
         }
     }
 
@@ -353,6 +359,7 @@ public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageCh
         sb.append("ID (hex): ").append(toHex(id)).append('\n');
         sb.append("ID (reversed hex): ").append(toReversedHex(id)).append('\n');
         sb.append("ID (dec): ").append(toDec(id)).append('\n');
+        NFC_id=toDec(id);//赋值到变量
         sb.append("ID (reversed dec): ").append(toReversedDec(id)).append('\n');
 
         String prefix = "android.nfc.tech.";
@@ -574,12 +581,16 @@ public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageCh
         // Build views for all of the sub records
         Date now = new Date();
         List<ParsedNdefRecord> records = NdefMessageParser.parse(msgs[0]);
+
+       // ParsedNdefRecord record = records.get(4);
+
+        //Toast.makeText(getContext(),record.toString(),Toast.LENGTH_SHORT).show();
         final int size = records.size();
         for (int i = 0; i < size; i++) {
             TextView timeView = new TextView(this);
             timeView.setText(TIME_FORMAT.format(now));
             content.addView(timeView, 0);
-            ParsedNdefRecord record = records.get(i);
+             ParsedNdefRecord record = records.get(i);
             content.addView(record.getView(this, inflater, content, i), 1 + i);
             content.addView(inflater.inflate(R.layout.tag_divider, content, false), 2 + i);
         }
