@@ -128,10 +128,11 @@ public class NfcFragment extends Fragment implements StudentInfo.OnItemClickList
                 if (activity != null) {
                     activity.getViewPager().setCurrentItem(0);
                 }
-                //学生列表么有数据的话更新列表
+                updateStuRv(className);//获取列表
+//              //学生列表么有数据的话更新列表
 //                if(mStudentInfoList.isEmpty()){
 //                    updateStuRv(className);
-//                    Toast.makeText(getContext(),"学生列表已经更新",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(),"学生列表已经更新",Toast.LENGTH_SHORT).show();
 //                }else {
 //                    Toast.makeText(getActivity(),"请刷卡来签到",Toast.LENGTH_SHORT).show();
 //                }
@@ -142,16 +143,24 @@ public class NfcFragment extends Fragment implements StudentInfo.OnItemClickList
     }
 
     /**
-     * 根据获得的学生列表数据刷新rv
-     * @param key
+     * 调用activity中更新列表方法
+     * @param
      */
-    private void updateStuRv(String key) {
-
+    private void updateStuRv(String className) {
+        NfcActivity.MyTaskClassStu myTaskClassStu=new NfcActivity.MyTaskClassStu();
+        myTaskClassStu.execute("className",className);
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+    }
+
+
+    public void setStudentInfoList(List<StudentInfo> studentInfoList) {
+        mStudentInfoList = studentInfoList;
+        //刷新适配器
+        mStudentAdapter.notifyAdapter(mStudentInfoList,false);
     }
 
     /**

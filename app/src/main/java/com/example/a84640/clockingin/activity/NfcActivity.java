@@ -1,5 +1,6 @@
 package com.example.a84640.clockingin.activity;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.ClipData;
@@ -15,6 +16,7 @@ import android.nfc.Tag;
 import android.nfc.tech.MifareClassic;
 import android.nfc.tech.MifareUltralight;
 import android.nfc.tech.NfcA;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Parcel;
@@ -39,16 +41,26 @@ import android.widget.Toast;
 import com.example.a84640.clockingin.NdefMessageParser;
 import com.example.a84640.clockingin.ParsedNdefRecord;
 import com.example.a84640.clockingin.R;
+import com.example.a84640.clockingin.bean.StudentInfo;
 import com.example.a84640.clockingin.fragment.DataFragment;
 import com.example.a84640.clockingin.fragment.NfcFragment;
 import com.example.a84640.clockingin.fragment.TeacherFragment;
+import com.example.a84640.clockingin.utilities.NetUtils;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.AbstractList;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Locale;
 
 /**
@@ -71,16 +83,20 @@ public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageCh
     private AlertDialog mDialog;
 
     private List<Tag> mTags = new ArrayList<>();
-
+    public static NfcActivity getInstance=null;
     /**
      * 底部导航栏
      */
     private BottomNavigationView mNavigationView;
     public ViewPager mViewPager;
-    private NfcFragment mNfcFragment = new NfcFragment();
+    public NfcFragment mNfcFragment = new NfcFragment();
     private DataFragment mDataFragment = new DataFragment();
     private TeacherFragment mToolsFragment = new TeacherFragment();
     private static Context sContext;
+
+    public NfcFragment getNfcFragment() {
+        return mNfcFragment;
+    }
 
     public ViewPager getViewPager(){
         return mViewPager;
@@ -149,6 +165,7 @@ public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageCh
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getInstance=this;
         setContentView(R.layout.activity_nfc);
         //加载布局
         initView();
@@ -658,5 +675,68 @@ public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageCh
         setIntent(intent);
         resolveIntent(intent);
     }
+    /**
+     * 请求教师列表的线程
+     * @author jixiang
+     */
+
+    public static class MyTaskClassStu extends AsyncTask<String,Void,List> {
+
+        @Override
+        protected List doInBackground(String... strings) {
+            //task参数列表
+            String param=strings[0];
+            String value=strings[1];
+            //网络请求操作
+            List list=getStudentListByClassName(param,value);
+            return list;
+        }
+
+        /**
+         * 执行ui线程刷新stu列表
+         * @param list
+         */
+        @Override
+        protected void onPostExecute(List list) {
+            super.onPostExecute(list);
+
+            List<StudentInfo> studentInfoList=new ArrayList<>();
+            if (list!=null) {
+                for (int i=0;i<list.size();i++){
+                    StudentInfo studentInfo=new StudentInfo();
+                    studentInfo.setStudentName(String.valueOf(list.get(i)));
+                    studentInfo.setStudentImage(R.drawable.student);
+                    studentInfoList.add(studentInfo);
+                }
+                //刷新数据
+                getInstance.mNfcFragment.setStudentInfoList(studentInfoList);
+            }
+        }
+    }
+    /**
+     * 调用请求方法获取学生列表，并且转换为list
+     * @param param
+     * @param value
+     * @return list
+     */
+    public static List getStudentListByClassName(String param,String value) {
+        String json= NetUtils.uniMethodSetOneStringParam(param,value,"http://192.168.43.75:8080/selectStuByClassName");
+        List list=new ArrayList();
+        Log.d("json debug","从server获取数据"+json);
+        try {
+            JSONArray jsonArray=new JSONArray(json);
+            for (int i=0;i<jsonArray.length();i++){
+                JSONObject jsonObject=jsonArray.getJSONObject(i);
+                String studentName=jsonObject.optString("Sname",null);
+                //调试
+                Log.d("json debug","收到的数据"+i+studentName);
+                list.add(i,studentName);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
 
 }
