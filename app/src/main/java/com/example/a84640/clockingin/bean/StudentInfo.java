@@ -10,6 +10,7 @@ import java.util.List;
 public class StudentInfo {
     private int studentImage;//学生头像
     private String studentName;//学生名字
+    private String msg;
 
     public int getStudentImage() {
         return studentImage;

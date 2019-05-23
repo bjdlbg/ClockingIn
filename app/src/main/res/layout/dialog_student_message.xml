@@ -42,7 +42,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="14dp"
         android:layout_marginEnd="32dp"
-        android:text="网络工程三班" />
+        android:text="学号" />
 
     <TextView
         android:id="@+id/textView_student_class2"

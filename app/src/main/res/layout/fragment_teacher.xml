@@ -17,17 +17,18 @@
             app:expandedTitleMarginBottom="100dp"
             app:expandedTitleMarginStart="50dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:title="程普">
+            app:title="教师一号">
 
 
-            <TextView
+            <TextClock
                 android:id="@+id/textView_time"
-                android:layout_width="111dp"
+                android:layout_width="245dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:layout_marginLeft="150dp"
                 android:layout_marginBottom="45dp"
-                android:text="日期"
+                android:format12Hour="yyyy年MM月dd  HH:mm:ss"
+                android:format24Hour="yyyy年MM月dd HH:mm:ss"
                 android:textColor="#BE0505"
                 android:textSize="20sp"
                 app:layout_collapseMode="parallax" />

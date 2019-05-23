@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="languages" >
+        <item>教师一号</item>
+        <item>教师二号</item>
+    </string-array>
+</resources>

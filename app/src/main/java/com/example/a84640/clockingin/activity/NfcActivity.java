@@ -366,6 +366,7 @@ public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageCh
             buildTagViews(msgs);
             //显示卡片id
             Toast.makeText(this,String.valueOf(NFC_id),Toast.LENGTH_SHORT).show();
+            //查询签到
 
         }
     }

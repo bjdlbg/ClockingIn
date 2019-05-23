@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,7 +44,7 @@ public class TeacherFragment extends Fragment {
     private View rootView;
     private List<TeacherClass> mTeacherClasses =new ArrayList<>();
     private ClassAdapter mClassAdapter;
-    private TextView mTextViewDate;
+    private TextClock mTextViewDate;
     private TextView mTextViewHour;
     private RecyclerView mRecyclerView;
 
@@ -67,6 +68,7 @@ public class TeacherFragment extends Fragment {
         rootView=inflater.inflate(R.layout.fragment_teacher,container,false);
         //初始化控件
         initView(rootView);
+
 
         mClassAdapter=new ClassAdapter(mTeacherClasses);
 
@@ -131,7 +133,9 @@ public class TeacherFragment extends Fragment {
         Intent intent=new Intent();
         Bundle bundle=new Bundle();
         bundle.putString("class_name",className);
-        bundle.putString("class_stu_number",studentNum);
+        //教师列表暂时不显示学生数量
+        //bundle.putString("class_stu_number",studentNum);
+
         intent.putExtras(bundle);
         intent.setAction("com.example.a84640.clockingin.teacherfragment");
         LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
@@ -148,7 +152,7 @@ public class TeacherFragment extends Fragment {
         mRecyclerView=(RecyclerView)rootView.findViewById(R.id.recycle_teacher);
         LinearLayoutManager layoutManager=new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(layoutManager);
-        mTextViewDate=(TextView)rootView.findViewById(R.id.textView_time);
+        mTextViewDate=(TextClock) rootView.findViewById(R.id.textView_time);
     }
 
     @Override
@@ -213,7 +217,7 @@ public class TeacherFragment extends Fragment {
         }
 
         /**
-         * 执行ui线程
+         * 执行ui线程,刷新教师rv
          * @param list
          */
         @Override

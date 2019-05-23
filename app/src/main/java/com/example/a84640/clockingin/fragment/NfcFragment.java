@@ -80,7 +80,6 @@ public class NfcFragment extends Fragment implements StudentInfo.OnItemClickList
             public void onClick(View v) {
                     MyTask myTask=new MyTask();
                     myTask.execute();
-
                 Log.d("network","成功显示数据:");
             }
         });
@@ -119,16 +118,15 @@ public class NfcFragment extends Fragment implements StudentInfo.OnItemClickList
             public void onReceive(Context context, Intent intent) {
                 intent.getExtras();
                 final Bundle bd=intent.getExtras();
-                String number=bd.getString("class_stu_number");
+                //String number=bd.getString("class_stu_number");
                 String className=bd.getString("class_name");
-                mStuNumber.setText("人数："+number);
-                mClassNumber.setText("班级："+className);
                 //收到广播跳转到第一个界面
                 NfcActivity activity=(NfcActivity)getActivity();
                 if (activity != null) {
                     activity.getViewPager().setCurrentItem(0);
                 }
                 updateStuRv(className);//获取列表
+
 //              //学生列表么有数据的话更新列表
 //                if(mStudentInfoList.isEmpty()){
 //                    updateStuRv(className);
@@ -149,6 +147,8 @@ public class NfcFragment extends Fragment implements StudentInfo.OnItemClickList
     private void updateStuRv(String className) {
         NfcActivity.MyTaskClassStu myTaskClassStu=new NfcActivity.MyTaskClassStu();
         myTaskClassStu.execute("className",className);
+        mStuNumber.setText("人数："+mStudentInfoList.size());
+        mClassNumber.setText("班级："+className);
     }
 
     @Override
@@ -220,6 +220,8 @@ public class NfcFragment extends Fragment implements StudentInfo.OnItemClickList
             public void onClick(DialogInterface dialog, int which) {
                 //TODO:添加动作
                 Toast.makeText(getContext(),"您标记了"+name,Toast.LENGTH_SHORT).show();
+                //item添加标记状态
+
             }
         });
         builder.setPositiveButton("返回", new DialogInterface.OnClickListener() {

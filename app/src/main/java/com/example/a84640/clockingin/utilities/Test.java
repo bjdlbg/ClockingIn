@@ -45,7 +45,7 @@ public class Test {
 
         //getStudentListByTeacherName();
         //System.out.print(selectClothes());
-        System.out.print(NetUtils.uniMethodSetOneStringParam("className","周一上午一二节","http://192.168.43.75:8080/selectStuByClassName"));
+       // System.out.print(NetUtils.uniMethodSetOneStringParam("className","周一上午一二节","http://192.168.43.75:8080/selectStuByClassName"));
     }
 
     public static String getURLContent() throws Exception {
@@ -102,22 +102,6 @@ public class Test {
     }
 
 
-    /**
-     * 小宝贝周六穿什么粗去
-     * @return
-     */
-    public static String selectClothes(){
-        //下身衣物
-        String wear[]={"长裤","短裤","长裙","短裙","下身不穿"};
-        //上身衣服
-        String T_shirt[]={"红短袖","黑短袖","上身不穿"};
-        //胖次color
-        String panci[]={"black","white","purple","blue","no_panci"};
-        int id1=(int)(Math.random()*10)%5+1;
-        int id2=(int)(Math.random()*10)%3+1;
-        int id3=(int)(Math.random()*10)%5+1;
 
-        return wear[id1]+"+"+T_shirt[id2]+"+"+panci[id3];
-    }
 
 }
