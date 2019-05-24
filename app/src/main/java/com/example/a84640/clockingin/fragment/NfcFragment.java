@@ -157,6 +157,10 @@ public class NfcFragment extends Fragment implements StudentInfo.OnItemClickList
         mStudentAdapter.notifyAdapter(mStudentInfoList,false);
     }
 
+    public List<StudentInfo> getStudentInfoList() {
+        return mStudentInfoList;
+    }
+
     /**
      * 载入控件
      */

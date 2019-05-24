@@ -273,7 +273,7 @@ public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageCh
         Bundle bundle=intent.getExtras();
         //从intent获取数据
         if (bundle != null) {
-            IP_NUM=bundle.getString("ip_num","192.168.43.75:8080");
+            IP_NUM=bundle.getString("ip_num","192.168.43.75");
             WEEK_NUM=bundle.getString("week_num","第一周");
             TEACHER_NAME=bundle.getString("teacher_name","教师一号");
         }
@@ -382,6 +382,16 @@ public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageCh
             Toast.makeText(this,String.valueOf(NFC_id),Toast.LENGTH_SHORT).show();
             //查询签到
             //TODO:签到逻辑
+            List<StudentInfo> list=getInstance.mNfcFragment.getStudentInfoList();
+            //遍历列表
+            for (int i=0;i<list.size();i++){
+                if (list.get(i).getStudentName().equals("添加使用sdid搜到的人名")){
+
+                    //TODO:弹出消息弹框3S之后自动关闭
+                    break;
+                }
+            }
+
         }
     }
 

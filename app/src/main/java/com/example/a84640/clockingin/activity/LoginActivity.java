@@ -103,10 +103,14 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... strings) {
             String ip="http://"+mEditText.getText().toString().trim()+":8080/testServer";
-            String s=NetUtils.uniMethodSetOneStringParam(null,null,
-                            ip);
+            String s=NetUtils.uniMethodSetOneStringParam("","", ip);
             Log.d("loginactivity",ip);
             return s;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
         }
     }
 
