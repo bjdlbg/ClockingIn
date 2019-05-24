@@ -8,7 +8,7 @@
     <string name="title_notifications">Teacher</string>
     <!--主界面menu-->
     <string name="help">帮助</string>
-    <string name="junan">刘俊男</string>
+    <string name="junan">教师二号</string>
     <string name="add_teacher">添加+</string>
     <string name="menu_about">关于</string>
     <string name="menu_esc">退出</string>

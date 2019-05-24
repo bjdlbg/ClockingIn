@@ -4,4 +4,17 @@
         <item>教师一号</item>
         <item>教师二号</item>
     </string-array>
+
+    <string-array name="week" >
+        <item>第一周</item>
+        <item>第二周</item>
+        <item>第三周</item>
+        <item>第四周</item>
+        <item>第五周</item>
+        <item>第六周</item>
+        <item>第七周</item>
+        <item>第八周</item>
+        <item>第九周</item>
+        <item>第十周</item>
+    </string-array>
 </resources>

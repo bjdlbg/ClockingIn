@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +34,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.a84640.clockingin.activity.NfcActivity.IP_NUM;
 
 /**
  * @author jixiang
@@ -178,7 +181,7 @@ public class TeacherFragment extends Fragment {
      * @param teacherName
      */
     public List getClassListByTeacherName(String teacherName){
-        String json=NetUtils.getClassFromServer(teacherName,"http://192.168.43.75:8080/selectClassByTeacherName");
+        String json=NetUtils.getClassFromServer(teacherName,IP_NUM+"/selectClassByTeacherName");
         List list=new ArrayList();
         Log.d("json debug","从server获取数据"+json);
         try {

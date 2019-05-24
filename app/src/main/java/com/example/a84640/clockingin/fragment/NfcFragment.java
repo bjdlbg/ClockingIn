@@ -44,6 +44,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
+import static com.example.a84640.clockingin.activity.NfcActivity.IP_NUM;
 import static com.example.a84640.clockingin.utilities.NetUtils.LoginByPost;
 
 /**
@@ -66,7 +67,7 @@ public class NfcFragment extends Fragment implements StudentInfo.OnItemClickList
     private IntentFilter intentFilter;
     private BroadcastReceiver mReceiver;
     private TextView mClassNumber;
-    private TextView mStuNumber;
+    public TextView mStuNumber;
 
     @Nullable
     @Override
@@ -112,7 +113,6 @@ public class NfcFragment extends Fragment implements StudentInfo.OnItemClickList
         broadcastManager=LocalBroadcastManager.getInstance(getActivity());
         intentFilter=new IntentFilter();
         intentFilter.addAction("com.example.a84640.clockingin.teacherfragment");
-
         mReceiver=new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -126,14 +126,8 @@ public class NfcFragment extends Fragment implements StudentInfo.OnItemClickList
                     activity.getViewPager().setCurrentItem(0);
                 }
                 updateStuRv(className);//获取列表
+                Toast.makeText(getActivity(),"学生列表已经更新",Toast.LENGTH_SHORT).show();
 
-//              //学生列表么有数据的话更新列表
-//                if(mStudentInfoList.isEmpty()){
-//                    updateStuRv(className);
-                    Toast.makeText(getContext(),"学生列表已经更新",Toast.LENGTH_SHORT).show();
-//                }else {
-//                    Toast.makeText(getActivity(),"请刷卡来签到",Toast.LENGTH_SHORT).show();
-//                }
 
             }
         };
@@ -147,7 +141,7 @@ public class NfcFragment extends Fragment implements StudentInfo.OnItemClickList
     private void updateStuRv(String className) {
         NfcActivity.MyTaskClassStu myTaskClassStu=new NfcActivity.MyTaskClassStu();
         myTaskClassStu.execute("className",className);
-        mStuNumber.setText("人数："+mStudentInfoList.size());
+        //mStuNumber.setText("人数："+mStudentInfoList.size());
         mClassNumber.setText("班级："+className);
     }
 
@@ -176,20 +170,6 @@ public class NfcFragment extends Fragment implements StudentInfo.OnItemClickList
         mClassNumber=(TextView)rootView.findViewById(R.id.tv_class_number);
     }
 
-//    /**
-//     * 载入数据（暂时使用虚拟数据）
-//     */
-//    public void initStudentMessage(){
-////        for (int i=1;i<=7;i++){
-////            StudentInfo studentInfo=new StudentInfo();
-////            studentInfo.setStudentImage(R.drawable.student);
-////            studentInfo.setStudentName("张三");
-////            mStudentInfoList.add(studentInfo);
-////            mStudentAdapter.notifyAdapter(mStudentInfoList,false);
-////        }
-//
-//
-//    }
 
     /**
      * 设置适配器与列表布局
@@ -242,7 +222,7 @@ public class NfcFragment extends Fragment implements StudentInfo.OnItemClickList
 
             @Override
             protected String doInBackground(String... strings) {
-                return LoginByPost("180","18","http://192.168.43.75:8080/hello");
+                return LoginByPost("180","18",IP_NUM+"/hello");
             }
 
             @Override

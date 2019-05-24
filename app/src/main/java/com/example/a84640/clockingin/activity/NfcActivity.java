@@ -34,6 +34,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -71,6 +73,10 @@ import java.util.Locale;
  */
 public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
     public static long NFC_id = 123456;
+    public static String WEEK_NUM=null;
+    public static String IP_NUM;
+    public static String TEACHER_NAME=null;
+
     private SharedPreferences sp;
     private SharedPreferences.Editor editor;
 
@@ -143,11 +149,11 @@ public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageCh
                 break;
             case R.id.main_menu_der:
                 //TODO:切换一个老师
-                Toast.makeText(sContext, "切换到教师刘俊男", Toast.LENGTH_SHORT).show();
+                Toast.makeText(sContext, "切换到教师二号", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.main_menu_bgc:
                 //TODO:添加一个老师
-                Toast.makeText(sContext, "添加一个教师", Toast.LENGTH_SHORT).show();
+                Toast.makeText(sContext, "该功能还未实现", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.main_menu_about:
                 //TODO:添加关于app的开发信息
@@ -155,7 +161,8 @@ public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageCh
                 break;
             case R.id.main_menu_esc:
                 //TODO:退出app
-                Toast.makeText(sContext, "退出app", Toast.LENGTH_SHORT).show();
+                Toast.makeText(sContext, "退出当前教师", Toast.LENGTH_SHORT).show();
+                finish();
                 break;
             default:
         }
@@ -165,12 +172,17 @@ public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageCh
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getInstance=this;
+        //隐藏标题栏
+        Window window=getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_nfc);
         //加载布局
         initView();
-        sContext = getApplicationContext();
+        //获取数据
+        getDateFromLogin();
 
+        getInstance=this;
+        sContext = getApplicationContext();
         //三个界面
         mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
@@ -197,6 +209,7 @@ public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageCh
             }
         });
 
+        //解析NFC动作
         resolveIntent(getIntent());
 
         mDialog = new AlertDialog.Builder(this).setNeutralButton("Ok", null).create();
@@ -208,18 +221,12 @@ public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageCh
             return;
         }
 
+        //设置pendingIntent等待读取
         mPendingIntent = PendingIntent.getActivity(this, 0,
                 new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
-        mNdefPushMessage = new NdefMessage(new NdefRecord[]{newTextRecord(
-                "Message from NFC Reader :-)", Locale.ENGLISH, true)});
-//        //设置默认进入的界面
-//        sp = PreferenceManager.getDefaultSharedPreferences(this);
-//        boolean isFirstInstall = sp.getBoolean("first_install", true);
-//        if (isFirstInstall) {
-//            mViewPager.setCurrentItem(0);
-//        } else {
-//            mViewPager.setCurrentItem(1);
-//        }
+        mNdefPushMessage = new NdefMessage(
+                new NdefRecord[]{newTextRecord("Message from NFC Reader :-)", Locale.ENGLISH, true)});
+
     }
 
     @Override
@@ -258,13 +265,20 @@ public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageCh
 
     }
 
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        editor = sp.edit();
-//        editor.putBoolean("first_install", false);
-//        editor.apply();
-//    }
+    /**
+     * 获取登陆数据
+     */
+    public void getDateFromLogin(){
+        Intent intent=getIntent();
+        Bundle bundle=intent.getExtras();
+        //从intent获取数据
+        if (bundle != null) {
+            IP_NUM=bundle.getString("ip_num","192.168.43.75:8080");
+            WEEK_NUM=bundle.getString("week_num","第一周");
+            TEACHER_NAME=bundle.getString("teacher_name","教师一号");
+        }
+
+    }
 
     @Override
     public void onBackPressed() {
@@ -367,9 +381,13 @@ public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageCh
             //显示卡片id
             Toast.makeText(this,String.valueOf(NFC_id),Toast.LENGTH_SHORT).show();
             //查询签到
-
+            //TODO:签到逻辑
         }
     }
+
+
+    //*********************************************  选自开源库（部分没有用到）  **********************************************//
+    //将学生id提取
 
     private String dumpTagData(Tag tag) {
         StringBuilder sb = new StringBuilder();
@@ -711,6 +729,7 @@ public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageCh
                 }
                 //刷新数据
                 getInstance.mNfcFragment.setStudentInfoList(studentInfoList);
+                getInstance.mNfcFragment.mStuNumber.setText("人数："+list.size());
             }
         }
     }
@@ -721,7 +740,7 @@ public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageCh
      * @return list
      */
     public static List getStudentListByClassName(String param,String value) {
-        String json= NetUtils.uniMethodSetOneStringParam(param,value,"http://192.168.43.75:8080/selectStuByClassName");
+        String json= NetUtils.uniMethodSetOneStringParam(param,value,IP_NUM+"/selectStuByClassName");
         List list=new ArrayList();
         Log.d("json debug","从server获取数据"+json);
         try {

@@ -15,6 +15,8 @@ import com.example.a84640.clockingin.utilities.NetUtils;
 
 import java.util.PriorityQueue;
 
+import static com.example.a84640.clockingin.activity.NfcActivity.IP_NUM;
+
 /**
  * 用于：当用户第一次打开时 或
  *       点击右上角帮助按钮时候
@@ -63,7 +65,7 @@ public class HelpActivity extends AppCompatActivity {
      */
     private String testServer() {
         String message=mTextView.getText().toString().trim();
-        if ("发送成功".equals(NetUtils.sendTextToServer(message, "http://192.168.43.75:8080/setText"))){
+        if ("发送成功".equals(NetUtils.sendTextToServer(message, IP_NUM+"/setText"))){
             //Toast.makeText(this,"数据发送成功",Toast.LENGTH_SHORT).show();
             return "数据发送成功";
         }else {
@@ -96,7 +98,7 @@ public class HelpActivity extends AppCompatActivity {
     public class TestPortTask extends AsyncTask<String,Void,String>{
         @Override
         protected String doInBackground(String... strings) {
-            return NetUtils.sendTextToServer("", "http://192.168.43.75:8080/testPort");
+            return NetUtils.sendTextToServer("", IP_NUM+"/testPort");
         }
 
         @Override
