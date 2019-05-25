@@ -1,6 +1,7 @@
 package com.example.a84640.clockingin.activity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.ClipData;
@@ -67,7 +68,7 @@ import java.util.Locale;
 
 /**
  * 主活动
- *
+ *  三个界面承载类
  * @author jixiang
  * @date 2019/3/3
  */
@@ -76,6 +77,7 @@ public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageCh
     public static String WEEK_NUM=null;
     public static String IP_NUM;
     public static String TEACHER_NAME=null;
+    public static String NOW_NAME="";
 
     private SharedPreferences sp;
     private SharedPreferences.Editor editor;
@@ -381,19 +383,29 @@ public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageCh
             //显示卡片id
             Toast.makeText(this,String.valueOf(NFC_id),Toast.LENGTH_SHORT).show();
             //查询签到
-            //TODO:签到逻辑
-            List<StudentInfo> list=getInstance.mNfcFragment.getStudentInfoList();
-            //遍历列表
-            for (int i=0;i<list.size();i++){
-                if (list.get(i).getStudentName().equals("添加使用sdid搜到的人名")){
 
-                    //TODO:弹出消息弹框3S之后自动关闭
-                    break;
-                }
-            }
+            //TODO:签到逻辑
+//            List<StudentInfo> list=getInstance.mNfcFragment.getStudentInfoList();
+//            Log.d("nfcactivity","当前共有"+String.valueOf(list.size()));
+            CardIdTask cardIdTask=new CardIdTask();
+            //获取人名
+            cardIdTask.execute(String.valueOf(NFC_id));
+
+//            Log.d("nfcactivity","卡片主人为"+NOW_NAME);
+//            //遍历列表
+//            for (int i=0;i<list.size();i++){
+//                if (list.get(i).getStudentName().equals(NOW_NAME)){
+//                    //TODO:弹出消息弹框3S之后自动关闭
+//                    Toast.makeText(this,NOW_NAME,Toast.LENGTH_SHORT).show();
+//
+//                    break;
+//                }
+//            }
 
         }
     }
+
+
 
 
     //*********************************************  选自开源库（部分没有用到）  **********************************************//
@@ -768,5 +780,71 @@ public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageCh
         return list;
     }
 
+
+    /**
+     * 通过卡id搜索人名
+     */
+    public class CardIdTask extends AsyncTask<String,Void,String>{
+
+        @Override
+        protected String doInBackground(String... strings) {
+            String value=strings[0];
+            //获取到的名字
+            String s=NetUtils.uniMethodSetOneStringParam("cardId",value,IP_NUM+"/selectNameByCard");
+            return s;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Log.d("nfcactivity","卡片主人为"+s);
+            List<StudentInfo> list=getInstance.mNfcFragment.getStudentInfoList();
+            Log.d("nfcactivity","当前共有"+String.valueOf(list.size()));
+            //遍历列表
+            for (int i=0;i<list.size();i++){
+                if (list.get(i).getStudentName().equals(s)){
+                    //TODO:弹出消息弹框3S之后自动关闭
+                    Toast.makeText(getContext(),s,Toast.LENGTH_SHORT).show();
+                    //显示dialog
+                    getInstance.mNfcFragment.showClockDialog(i,list);
+
+
+                    break;
+                }
+            }
+//            NOW_NAME=s;
+        }
+
+
+        /**
+         * 显示签到dialog
+         * @param position
+         * @param list
+         * @param name
+         */
+//        public void showDialog(int position, List<StudentInfo> list, final String name){
+//            View dialog= LayoutInflater.from(NfcActivity.this).inflate(R.layout.dialog_student_message,null);
+//            AlertDialog.Builder builder=new AlertDialog.Builder(getContext());
+//            builder.setTitle(name);
+//            builder.setNegativeButton("标记", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    //TODO:添加动作
+//                    Toast.makeText(getContext(),"您标记了"+name,Toast.LENGTH_SHORT).show();
+//                    //item添加标记状态
+//
+//                }
+//            });
+//            builder.setPositiveButton("返回", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    dialog.dismiss();
+//                }
+//            });
+//            builder.setView(dialog);
+//            builder.create().show();
+//        }
+
+    }
 
 }

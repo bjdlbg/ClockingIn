@@ -32,7 +32,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="148dp"
         android:layout_marginEnd="36dp"
-        android:text="186XXXXXXX" />
+        android:text="18639768395" />
 
     <TextView
         android:id="@+id/textView_student_class"
@@ -42,16 +42,17 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="14dp"
         android:layout_marginEnd="32dp"
-        android:text="学号" />
+        android:text="1610252713" />
 
     <TextView
+
         android:id="@+id/textView_student_class2"
         android:layout_width="156dp"
         android:layout_height="39dp"
         android:layout_below="@+id/textView_student_class"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="7dp"
-        android:layout_marginEnd="31dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="33dp"
         android:text="网络工程三班" />
 
     <ImageView
@@ -74,5 +75,5 @@
         android:layout_marginTop="17dp"
         android:layout_marginEnd="41dp"
         android:layout_toStartOf="@+id/textView_student_class"
-        app:srcCompat="@android:drawable/ic_menu_edit" />
+        app:srcCompat="@android:drawable/ic_input_get" />
 </RelativeLayout>

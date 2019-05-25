@@ -23,4 +23,7 @@
     <string name="menu_copy_dec">Dec</string>
     <string name="menu_copy_reversed_dec">Reversed dec</string>
     <string name="nothing_scanned">Nothing scanned yet</string>
+    <string name="prompt">提示</string>
+    <string name="the_video_is_removed">签到成功</string>
+    <string name ="btn_op" formatted="false">%d 确定</string >
 </resources>

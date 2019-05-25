@@ -23,6 +23,7 @@ public class LoginActivity extends AppCompatActivity {
     public static String WEEK_NUM=null;
     public static String IP_NUM=null;
     public static String TEACHER_NAME=null;
+    public static String LOGIN_VALUE="";
     private Button mButton;
     private Spinner mSpinner;
     private Spinner mSpinnerWeek;
@@ -92,7 +93,9 @@ public class LoginActivity extends AppCompatActivity {
      */
     private boolean checkServer(){
         MyTaskLogin myTask=new MyTaskLogin();
-        if (myTask.execute().equals("连接成功")){
+        myTask.execute();
+        Log.d("loginactivity-----",LOGIN_VALUE);
+        if (LOGIN_VALUE.equals("连接成功")){
             return true;
         }
         return false;
@@ -102,15 +105,22 @@ public class LoginActivity extends AppCompatActivity {
     private class MyTaskLogin extends AsyncTask<String,Void,String>{
         @Override
         protected String doInBackground(String... strings) {
-            String ip="http://"+mEditText.getText().toString().trim()+":8080/testServer";
-            String s=NetUtils.uniMethodSetOneStringParam("","", ip);
-            Log.d("loginactivity",ip);
+            String s=null;
+            String ip=mEditText.getText().toString().trim();
+            String iphost="http://"+ip+":8080/testServer";
+            if (ip.equals("")){
+                s="";
+            }else {
+                s = NetUtils.uniMethodSetOneStringParam("", "", iphost);
+                Log.d("loginactivity", iphost);
+            }
             return s;
         }
 
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            LOGIN_VALUE=s;
         }
     }
 

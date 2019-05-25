@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -68,6 +69,7 @@ public class NfcFragment extends Fragment implements StudentInfo.OnItemClickList
     private BroadcastReceiver mReceiver;
     private TextView mClassNumber;
     public TextView mStuNumber;
+    private AlertDialog mDialog;
 
     @Nullable
     @Override
@@ -195,23 +197,35 @@ public class NfcFragment extends Fragment implements StudentInfo.OnItemClickList
      */
     @Override
     public void onItemClickListener(final int position, final List<StudentInfo> studentInfos) {
+        showClockDialog(position,studentInfos);
+    }
+
+    //签到dialog
+    public void showClockDialog(final int position, final List<StudentInfo> studentInfos){
         View dialog= LayoutInflater.from(getContext()).inflate(R.layout.dialog_student_message,null);
-        AlertDialog.Builder builder=new AlertDialog.Builder(getContext());
+        final AlertDialog.Builder builder=new AlertDialog.Builder(getContext());
         final String name=studentInfos.get(position).getStudentName();
         builder.setTitle(name);
         builder.setNegativeButton("标记", new DialogInterface.OnClickListener() {
+            @SuppressLint("ResourceAsColor")
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 //TODO:添加动作
                 Toast.makeText(getContext(),"您标记了"+name,Toast.LENGTH_SHORT).show();
                 //item添加标记状态
+                mRecyclerView.findViewHolderForLayoutPosition(position).itemView.setBackgroundColor(R.color.colorAccent);
 
             }
         });
-        builder.setPositiveButton("返回", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("签到", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
+                mStudentInfoList.remove(position);
+                mStudentAdapter.notifyAdapter(mStudentInfoList,false);
+                //签到成功
+                alertDialog();
+
             }
         });
         builder.setView(dialog);
@@ -236,6 +250,38 @@ public class NfcFragment extends Fragment implements StudentInfo.OnItemClickList
             }
         }
 
+    private void alertDialog(){
+        AlertDialog.Builder builder=new AlertDialog.Builder(this.getActivity());
+        builder.setTitle(R.string.prompt);
+        builder.setMessage(R.string.the_video_is_removed);
+        builder.setNegativeButton(R.string.btn_op,new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog,int which) {
+                dialog.dismiss();
+                timer.cancel();//取消倒计时
+            }
+        });
+        mDialog=builder.create();
+        mDialog.show();
+        timer.start();
+    }
 
+    CountDownTimer timer= new CountDownTimer(3000,1000) {
+        @Override
+        public void onTick(long arg0) {
+            int thetime=(int) (arg0/1000);
+            if(mDialog!=null){
+                mDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setText(getString(R.string.btn_op, thetime));
+            }
+        }
+
+
+        @Override
+        public void onFinish() {
+            if(mDialog!=null){
+                mDialog.dismiss();
+            }
+        }
+    };
 
 }

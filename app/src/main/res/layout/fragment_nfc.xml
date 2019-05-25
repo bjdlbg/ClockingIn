@@ -58,7 +58,7 @@
                 android:layout_height="50dp"
                 android:layout_gravity="left"
                 android:layout_weight="3"
-                android:text="拒绝签到" />
+                android:text="开启服务端" />
 
             <TextView
                 android:id="@+id/text_3s"
@@ -73,7 +73,7 @@
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_weight="3"
-                android:text="下一个" />
+                android:text="下个班级" />
         </LinearLayout>
 
     </LinearLayout>
@@ -91,6 +91,7 @@
             android:layout_height="30dp">
 
             <TextView
+                android:textColor="@color/white"
                 android:id="@+id/tv_class_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -99,6 +100,7 @@
                 android:textSize="19sp" />
 
             <TextView
+                android:textColor="@color/white"
                 android:id="@+id/tv_stu_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
