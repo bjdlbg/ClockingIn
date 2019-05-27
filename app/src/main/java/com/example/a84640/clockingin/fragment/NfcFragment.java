@@ -55,7 +55,7 @@ import static com.example.a84640.clockingin.utilities.NetUtils.LoginByPost;
  * @author jixiang
  * @date 2019/3/3
  */
-public class NfcFragment extends Fragment implements StudentInfo.OnItemClickListener{
+public class NfcFragment extends Fragment implements StudentInfo.OnItemClickListener,StudentInfo.OnItemLongClickListenner{
 
     public View rootView;
     private Button mButtonRefuse;
@@ -189,6 +189,7 @@ public class NfcFragment extends Fragment implements StudentInfo.OnItemClickList
         mRecyclerView.setAdapter(mStudentAdapter);
         //添加列表item的点击事件
         mStudentAdapter.setOnItemClickListener(this);
+        mStudentAdapter.setOnItemLongClickListenner(this);
 
     }
 
@@ -215,7 +216,7 @@ public class NfcFragment extends Fragment implements StudentInfo.OnItemClickList
                 //TODO:添加动作
                 Toast.makeText(getContext(),"您标记了"+name,Toast.LENGTH_SHORT).show();
                 //item添加标记状态（有bug背景传递）
-                mRecyclerView.findViewHolderForLayoutPosition(position).itemView.setBackgroundColor(R.color.colorAccent);
+                mRecyclerView.findViewHolderForLayoutPosition(position).itemView.setBackgroundColor(R.color.design_default_color_primary_dark);
 
 
             }
@@ -226,7 +227,7 @@ public class NfcFragment extends Fragment implements StudentInfo.OnItemClickList
                 dialog.dismiss();
                 mStudentInfoList.remove(position);
                 mStudentAdapter.notifyAdapter(mStudentInfoList,false);
-                updateDateBaseForWeek();
+
                 //数据库更新状态
                 MyWeekTask myWeekTask=new MyWeekTask();
                 myWeekTask.execute(WEEK_NUM,name);
@@ -239,11 +240,12 @@ public class NfcFragment extends Fragment implements StudentInfo.OnItemClickList
         builder.create().show();
     }
 
-    /**
-     * 更新上课状态
-     */
-    private void updateDateBaseForWeek() {
-
+    @SuppressLint("ResourceAsColor")
+    @Override
+    public boolean onItemLongClickListenner(int position) {
+        mRecyclerView.findViewHolderForLayoutPosition(position).itemView.setBackgroundColor(R.color.white);
+        Toast.makeText(getActivity(),"取消标记",Toast.LENGTH_SHORT).show();
+        return true;
     }
 
 

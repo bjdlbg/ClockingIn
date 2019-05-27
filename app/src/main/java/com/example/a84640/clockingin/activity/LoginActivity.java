@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
     private void goToMain(){
         WEEK_NUM=mSpinnerWeek.getSelectedItem().toString();//获取周数
         IP_NUM="http://"+mEditText.getText().toString().trim()+":8080";//获取全局ip
-        TEACHER_NAME=mSpinnerWeek.getSelectedItem().toString();//当前登陆教师名字
+        TEACHER_NAME=mSpinner.getSelectedItem().toString();//当前登陆教师名字
 
         Intent intent=new Intent(LoginActivity.this,NfcActivity.class);
         Bundle bd=new Bundle();

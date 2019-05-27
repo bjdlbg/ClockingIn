@@ -34,4 +34,8 @@ public class StudentInfo {
         void onItemClickListener(int position, List<StudentInfo> tools);
     }
 
+    public interface OnItemLongClickListenner{
+        boolean onItemLongClickListenner(int position);
+    }
+
 }

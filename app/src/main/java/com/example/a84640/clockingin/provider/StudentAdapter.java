@@ -21,6 +21,7 @@ import java.util.List;
 public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHolder> {
     private List<StudentInfo> mStudentInfoList;
     private StudentInfo.OnItemClickListener mOnItemClickListener;
+    private StudentInfo.OnItemLongClickListenner mOnItemLongClickListenner;
 
     public StudentAdapter(List<StudentInfo> studentInfos){
         this.mStudentInfoList =studentInfos;
@@ -48,11 +49,23 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHold
                 mOnItemClickListener.onItemClickListener(viewHolder.getAdapterPosition(), mStudentInfoList);
             }
         });
+
+        //item长按
+        viewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                return mOnItemLongClickListenner.onItemLongClickListenner(viewHolder.getAdapterPosition());
+            }
+        });
     }
 
     /**实现item点击事件接口*/
     public void setOnItemClickListener(StudentInfo.OnItemClickListener onItemClickListener) {
         this.mOnItemClickListener =  onItemClickListener;
+    }
+
+    public void setOnItemLongClickListenner(StudentInfo.OnItemLongClickListenner onItemLongClickListenner){
+        this.mOnItemLongClickListenner=onItemLongClickListenner;
     }
 
     @Override

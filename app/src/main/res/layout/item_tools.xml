@@ -3,12 +3,14 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:clickable="true"
+
     android:layout_margin="5dp"
     app:cardElevation="4dp"
     android:focusable="true">
 
 
     <RelativeLayout
+
         android:layout_width="150dp"
         android:layout_height="190dp"
         android:visibility="visible">

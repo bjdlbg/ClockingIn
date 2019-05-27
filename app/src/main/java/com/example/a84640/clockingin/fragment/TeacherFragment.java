@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.a84640.clockingin.activity.NfcActivity.IP_NUM;
+import static com.example.a84640.clockingin.activity.NfcActivity.TEACHER_NAME;
 
 /**
  * @author jixiang
@@ -50,6 +53,7 @@ public class TeacherFragment extends Fragment {
     private TextClock mTextViewDate;
     private TextView mTextViewHour;
     private RecyclerView mRecyclerView;
+    private CollapsingToolbarLayout mCollapsingToolbarLayout;
 
 
 
@@ -67,25 +71,28 @@ public class TeacherFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+                             @Nullable final Bundle savedInstanceState) {
         rootView=inflater.inflate(R.layout.fragment_teacher,container,false);
         //初始化控件
         initView(rootView);
 
 
         mClassAdapter=new ClassAdapter(mTeacherClasses);
-
         //上课列表绑定点击事件
         mClassAdapter.setItemClickListener(new ClassAdapter.onItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 View layout=(View)mRecyclerView.getChildAt(position);
+                //切换对号图标
+
                 final TextView mClssName=layout.findViewById(R.id.class_name);
                 final TextView mStuNumber=layout.findViewById(R.id.class_stu_number);
                 //发送广播通知fragment
                 sendUpdateStudentBc(mClssName.getText().toString(),mStuNumber.getText().toString());
                 //Toast.makeText(getContext(),"点击item"+mClssName.getText().toString(),Toast.LENGTH_SHORT).show();
 
+                ImageView imageView=(ImageView) mRecyclerView.findViewHolderForLayoutPosition(position).itemView.findViewById(R.id.pic_class_whether_done);
+                imageView.setImageResource(R.drawable.select);
             }
         });
 
@@ -101,7 +108,7 @@ public class TeacherFragment extends Fragment {
                 //String value=mSharedPreferences.getString(key,"");
 
                 //TODO:当前弹框么有学生
-                Toast.makeText(getContext(),"当前sp么有内容",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(),"当前sp么有内容",Toast.LENGTH_SHORT).show();
                 AlertDialog dialog=new AlertDialog.Builder(getContext()).setTitle("提示").setMessage("待添加数据")
                         .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                             @Override
@@ -156,6 +163,8 @@ public class TeacherFragment extends Fragment {
         LinearLayoutManager layoutManager=new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(layoutManager);
         mTextViewDate=(TextClock) rootView.findViewById(R.id.textView_time);
+        mCollapsingToolbarLayout=(CollapsingToolbarLayout)rootView.findViewById(R.id.collapsing_teacher_name);
+        mCollapsingToolbarLayout.setTitle(TEACHER_NAME);
     }
 
     @Override
@@ -165,7 +174,7 @@ public class TeacherFragment extends Fragment {
 
         //首先拉取教师一的信息
         MyTaskTeacherClass myTaskTeacherClass=new MyTaskTeacherClass();
-        myTaskTeacherClass.execute("教师一号");
+        myTaskTeacherClass.execute(TEACHER_NAME);
     }
 
     @Override
