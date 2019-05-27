@@ -32,6 +32,7 @@ import com.example.a84640.clockingin.R;
 import com.example.a84640.clockingin.activity.NfcActivity;
 import com.example.a84640.clockingin.bean.StudentInfo;
 import com.example.a84640.clockingin.provider.StudentAdapter;
+import com.example.a84640.clockingin.utilities.NetUtils;
 import com.example.a84640.clockingin.utilities.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -46,6 +47,7 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 import static com.example.a84640.clockingin.activity.NfcActivity.IP_NUM;
+import static com.example.a84640.clockingin.activity.NfcActivity.WEEK_NUM;
 import static com.example.a84640.clockingin.utilities.NetUtils.LoginByPost;
 
 /**
@@ -200,7 +202,7 @@ public class NfcFragment extends Fragment implements StudentInfo.OnItemClickList
         showClockDialog(position,studentInfos);
     }
 
-    //签到dialog
+    //签到dialog（刷卡或者手动点击都会出现）
     public void showClockDialog(final int position, final List<StudentInfo> studentInfos){
         View dialog= LayoutInflater.from(getContext()).inflate(R.layout.dialog_student_message,null);
         final AlertDialog.Builder builder=new AlertDialog.Builder(getContext());
@@ -212,8 +214,9 @@ public class NfcFragment extends Fragment implements StudentInfo.OnItemClickList
             public void onClick(DialogInterface dialog, int which) {
                 //TODO:添加动作
                 Toast.makeText(getContext(),"您标记了"+name,Toast.LENGTH_SHORT).show();
-                //item添加标记状态
+                //item添加标记状态（有bug背景传递）
                 mRecyclerView.findViewHolderForLayoutPosition(position).itemView.setBackgroundColor(R.color.colorAccent);
+
 
             }
         });
@@ -223,6 +226,10 @@ public class NfcFragment extends Fragment implements StudentInfo.OnItemClickList
                 dialog.dismiss();
                 mStudentInfoList.remove(position);
                 mStudentAdapter.notifyAdapter(mStudentInfoList,false);
+                updateDateBaseForWeek();
+                //数据库更新状态
+                MyWeekTask myWeekTask=new MyWeekTask();
+                myWeekTask.execute(WEEK_NUM,name);
                 //签到成功
                 alertDialog();
 
@@ -230,6 +237,13 @@ public class NfcFragment extends Fragment implements StudentInfo.OnItemClickList
         });
         builder.setView(dialog);
         builder.create().show();
+    }
+
+    /**
+     * 更新上课状态
+     */
+    private void updateDateBaseForWeek() {
+
     }
 
 
@@ -264,6 +278,16 @@ public class NfcFragment extends Fragment implements StudentInfo.OnItemClickList
         mDialog=builder.create();
         mDialog.show();
         timer.start();
+    }
+
+    class MyWeekTask extends AsyncTask<String,Void,String>{
+
+        @Override
+        protected String doInBackground(String... strings) {
+            String s=strings[0];
+            String s2=strings[1];
+            return NetUtils.uniMethodSetTwoStringParam("weekNum",s,"name",s2,IP_NUM+"/updateWeek");
+        }
     }
 
     CountDownTimer timer= new CountDownTimer(3000,1000) {

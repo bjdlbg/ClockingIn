@@ -18,7 +18,7 @@ import java.util.PriorityQueue;
 import static com.example.a84640.clockingin.activity.NfcActivity.IP_NUM;
 
 /**
- * 用于：当用户第一次打开时 或
+ * 用于：
  *       点击右上角帮助按钮时候
  *       的帮助界面
  * @author

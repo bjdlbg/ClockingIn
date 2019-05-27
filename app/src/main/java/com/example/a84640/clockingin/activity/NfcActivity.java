@@ -74,10 +74,10 @@ import java.util.Locale;
  */
 public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
     public static long NFC_id = 123456;
-    public static String WEEK_NUM=null;
-    public static String IP_NUM;
-    public static String TEACHER_NAME=null;
-    public static String NOW_NAME="";
+    public static String WEEK_NUM=null;//主界面获取到的周数
+    public static String IP_NUM;//全局ip
+    public static String TEACHER_NAME=null;//教师名字（目前只有教师一号跟二号）
+    public static String NOW_NAME="";//
 
     private SharedPreferences sp;
     private SharedPreferences.Editor editor;
@@ -410,7 +410,6 @@ public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageCh
 
     //*********************************************  选自开源库（部分没有用到）  **********************************************//
     //将学生id提取
-
     private String dumpTagData(Tag tag) {
         StringBuilder sb = new StringBuilder();
         byte[] id = tag.getId();
@@ -749,7 +748,7 @@ public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageCh
                     studentInfo.setStudentImage(R.drawable.student);
                     studentInfoList.add(studentInfo);
                 }
-                //刷新数据
+                //远程刷新fragment数据
                 getInstance.mNfcFragment.setStudentInfoList(studentInfoList);
                 getInstance.mNfcFragment.mStuNumber.setText("人数："+list.size());
             }

@@ -45,6 +45,7 @@ public class Test {
 
         //getStudentListByTeacherName();
         //System.out.print(selectClothes());
+
        // System.out.print(NetUtils.uniMethodSetOneStringParam("className","周一上午一二节","http://192.168.43.75:8080/selectStuByClassName"));
     }
 

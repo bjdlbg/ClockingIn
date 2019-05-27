@@ -46,13 +46,14 @@ public class LoginActivity extends AppCompatActivity {
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkServer()){
-                    Toast.makeText(getApplication(),"连接成功",Toast.LENGTH_SHORT).show();
-                    goToMain();//登陆主界面
-                }else {
-                    Toast.makeText(getApplication(),"访问server失败,请检查ip是否正确",Toast.LENGTH_SHORT).show();
-                }
-
+//                if (checkServer()){
+//                    Toast.makeText(getApplication(),"连接成功",Toast.LENGTH_SHORT).show();
+//                    goToMain();//登陆主界面
+//                }else {
+//                    Toast.makeText(getApplication(),"访问server失败,请检查ip是否正确",Toast.LENGTH_SHORT).show();
+//                }
+                MyTaskLogin myTask=new MyTaskLogin();
+                myTask.execute();
             }
         });
 
@@ -91,15 +92,15 @@ public class LoginActivity extends AppCompatActivity {
      * 测试是否连接成功
      * @return
      */
-    private boolean checkServer(){
-        MyTaskLogin myTask=new MyTaskLogin();
-        myTask.execute();
-        Log.d("loginactivity-----",LOGIN_VALUE);
-        if (LOGIN_VALUE.equals("连接成功")){
-            return true;
-        }
-        return false;
-    }
+//    private boolean checkServer(){
+//        MyTaskLogin myTask=new MyTaskLogin();
+//        myTask.execute();
+//        Log.d("loginactivity-----",LOGIN_VALUE);
+//        if (LOGIN_VALUE.equals("连接成功")){
+//            return true;
+//        }
+//        return false;
+//    }
 
 
     private class MyTaskLogin extends AsyncTask<String,Void,String>{
@@ -121,6 +122,14 @@ public class LoginActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             LOGIN_VALUE=s;
+            Log.d("loginactivity-----",LOGIN_VALUE);
+            if (LOGIN_VALUE.equals("连接成功")){
+                Toast.makeText(getApplication(),"连接成功",Toast.LENGTH_SHORT).show();
+                goToMain();//登陆主界面
+            }else {
+                Toast.makeText(getApplication(),"访问server失败,请检查ip是否正确",Toast.LENGTH_SHORT).show();
+            }
+
         }
     }
 

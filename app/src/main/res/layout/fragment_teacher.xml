@@ -60,7 +60,7 @@
                 android:layout_gravity="bottom"
                 android:layout_marginLeft="150dp"
                 android:layout_marginBottom="15dp"
-                android:text="64（h）"
+                android:text="16（h）"
                 android:textColor="#BE0505"
                 android:textSize="20sp"
                 app:layout_collapseMode="parallax" />
