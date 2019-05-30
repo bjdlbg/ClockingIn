@@ -391,17 +391,6 @@ public class NfcActivity extends AppCompatActivity implements ViewPager.OnPageCh
             //获取人名
             cardIdTask.execute(String.valueOf(NFC_id));
 
-//            Log.d("nfcactivity","卡片主人为"+NOW_NAME);
-//            //遍历列表
-//            for (int i=0;i<list.size();i++){
-//                if (list.get(i).getStudentName().equals(NOW_NAME)){
-//                    //TODO:弹出消息弹框3S之后自动关闭
-//                    Toast.makeText(this,NOW_NAME,Toast.LENGTH_SHORT).show();
-//
-//                    break;
-//                }
-//            }
-
         }
     }
 
